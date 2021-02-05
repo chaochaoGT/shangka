@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.content.mapper.SkVersionDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.content.entity.SkVersion">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="app_type" jdbcType="TINYINT" property="appType" />
+    <result column="forced_update" jdbcType="TINYINT" property="forcedUpdate" />
+    <result column="version_code" jdbcType="INTEGER" property="versionCode" />
+    <result column="version_number" jdbcType="VARCHAR" property="versionNumber" />
+    <result column="download_url" jdbcType="VARCHAR" property="downloadUrl" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="popup" jdbcType="TINYINT" property="popup" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="prd_type" jdbcType="VARCHAR" property="prdType" />
+    <result column="channel_id" jdbcType="BIGINT" property="channelId" />
+    <result column="channel_name" jdbcType="VARCHAR" property="channelName" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, app_type, forced_update, version_code, version_number, download_url, `state`, 
+    popup, begin_time, end_time, prd_type, channel_id, channel_name, remark, create_time, 
+    create_by, update_time, update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_version
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_version
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.content.entity.SkVersion">
+    insert into sk_version (id, app_type, forced_update, 
+      version_code, version_number, download_url, 
+      `state`, popup, begin_time, 
+      end_time, prd_type, channel_id, 
+      channel_name, remark, create_time, 
+      create_by, update_time, update_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{appType,jdbcType=TINYINT}, #{forcedUpdate,jdbcType=TINYINT}, 
+      #{versionCode,jdbcType=INTEGER}, #{versionNumber,jdbcType=VARCHAR}, #{downloadUrl,jdbcType=VARCHAR}, 
+      #{state,jdbcType=TINYINT}, #{popup,jdbcType=TINYINT}, #{beginTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{prdType,jdbcType=VARCHAR}, #{channelId,jdbcType=BIGINT}, 
+      #{channelName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.content.entity.SkVersion">
+    insert into sk_version
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="appType != null">
+        app_type,
+      </if>
+      <if test="forcedUpdate != null">
+        forced_update,
+      </if>
+      <if test="versionCode != null">
+        version_code,
+      </if>
+      <if test="versionNumber != null">
+        version_number,
+      </if>
+      <if test="downloadUrl != null">
+        download_url,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="popup != null">
+        popup,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="prdType != null">
+        prd_type,
+      </if>
+      <if test="channelId != null">
+        channel_id,
+      </if>
+      <if test="channelName != null">
+        channel_name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="appType != null">
+        #{appType,jdbcType=TINYINT},
+      </if>
+      <if test="forcedUpdate != null">
+        #{forcedUpdate,jdbcType=TINYINT},
+      </if>
+      <if test="versionCode != null">
+        #{versionCode,jdbcType=INTEGER},
+      </if>
+      <if test="versionNumber != null">
+        #{versionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadUrl != null">
+        #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="popup != null">
+        #{popup,jdbcType=TINYINT},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prdType != null">
+        #{prdType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.content.entity.SkVersion">
+    update sk_version
+    <set>
+      <if test="appType != null">
+        app_type = #{appType,jdbcType=TINYINT},
+      </if>
+      <if test="forcedUpdate != null">
+        forced_update = #{forcedUpdate,jdbcType=TINYINT},
+      </if>
+      <if test="versionCode != null">
+        version_code = #{versionCode,jdbcType=INTEGER},
+      </if>
+      <if test="versionNumber != null">
+        version_number = #{versionNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadUrl != null">
+        download_url = #{downloadUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="popup != null">
+        popup = #{popup,jdbcType=TINYINT},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prdType != null">
+        prd_type = #{prdType,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        channel_id = #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="channelName != null">
+        channel_name = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.content.entity.SkVersion">
+    update sk_version
+    set app_type = #{appType,jdbcType=TINYINT},
+      forced_update = #{forcedUpdate,jdbcType=TINYINT},
+      version_code = #{versionCode,jdbcType=INTEGER},
+      version_number = #{versionNumber,jdbcType=VARCHAR},
+      download_url = #{downloadUrl,jdbcType=VARCHAR},
+      `state` = #{state,jdbcType=TINYINT},
+      popup = #{popup,jdbcType=TINYINT},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      prd_type = #{prdType,jdbcType=VARCHAR},
+      channel_id = #{channelId,jdbcType=BIGINT},
+      channel_name = #{channelName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

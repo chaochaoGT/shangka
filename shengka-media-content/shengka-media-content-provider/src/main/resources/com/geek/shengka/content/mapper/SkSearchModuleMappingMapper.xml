@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.content.mapper.SkSearchModuleMappingMapper" >
+    <resultMap id="BaseResultMap" type="com.geek.shengka.content.entity.SkSearchModuleMapping" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="config_id" property="configId" jdbcType="BIGINT" />
+        <result column="module_type" property="moduleType" jdbcType="TINYINT" />
+        <result column="source_id" property="sourceId" jdbcType="VARCHAR" />
+        <result column="seq" property="seq" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+    id, config_id, module_type, source_id, seq, create_time, create_by, update_time,
+    update_by
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+        select
+        <include refid="Base_Column_List" />
+        from sk_search_module_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sk_search_module_mapping
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.geek.shengka.content.entity.SkSearchModuleMapping" >
+        insert into sk_search_module_mapping (config_id, module_type, source_id,
+        seq, create_time, create_by,
+        update_time, update_by)
+        values (#{configId,jdbcType=BIGINT}, #{moduleType,jdbcType=TINYINT}, #{sourceId,jdbcType=VARCHAR},
+        #{seq,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+        #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.content.entity.SkSearchModuleMapping" >
+        insert into sk_search_module_mapping
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="configId != null" >
+                config_id,
+            </if>
+            <if test="moduleType != null" >
+                module_type,
+            </if>
+            <if test="sourceId != null" >
+                source_id,
+            </if>
+            <if test="seq != null" >
+                seq,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+            <if test="updateTime != null" >
+                update_time,
+            </if>
+            <if test="updateBy != null" >
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="configId != null" >
+                #{configId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleType != null" >
+                #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="sourceId != null" >
+                #{sourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null" >
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.content.entity.SkSearchModuleMapping" >
+        update sk_search_module_mapping
+        <set >
+            <if test="configId != null" >
+                config_id = #{configId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleType != null" >
+                module_type = #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="sourceId != null" >
+                source_id = #{sourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null" >
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null" >
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null" >
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.content.entity.SkSearchModuleMapping" >
+    update sk_search_module_mapping
+    set config_id = #{configId,jdbcType=BIGINT},
+      module_type = #{moduleType,jdbcType=TINYINT},
+      source_id = #{sourceId,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectSkSearchModuleMappingCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+        select count(*)
+        from sk_search_module_mapping
+        where 1=1
+        <include refid="condition"></include>
+    </select>
+
+    <select id="selectSkSearchModuleMappingList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from sk_search_module_mapping
+        where 1=1
+        <include refid="condition"></include>
+        <if test="startRecordNumb!=null and pageSize!=null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="selectSourceList" resultType="java.lang.String">
+        select
+        source_id
+        from sk_search_module_mapping
+        where  config_id = #{configId,jdbcType=BIGINT}
+        order by seq
+        <if test="startRecordNumb!=null and pageCount!=null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="getHotTopicSearchs" resultType="com.geek.shengka.content.entity.vo.SkSearchSourceVO">
+        SELECT
+        sm.module_type  AS sourceType,
+        st.id AS sourceId,
+        st.user_id ,
+        st.topic_name AS sourceName ,
+        st.topic_intro AS sourceDesc,
+        st.topic_logo AS sourceCoverUrl,
+        st.push_count AS pushNumbs,
+        st.topic_tag AS topicTag,
+        sm.seq,
+        st.watch_count AS watchTimes
+        FROM
+        sk_search_module_mapping AS sm
+        INNER  JOIN sk_topic_config AS st ON sm.source_id = st.id
+        WHERE
+        1 = 1
+        AND sm.config_id= #{configId,jdbcType=BIGINT}
+        AND st.`enable`=0
+        ORDER BY sm.seq ASC
+        <if test="startRecordNumb!=null and pageCount!=null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+        </if>
+
+
+    </select>
+    <select id="getPopularRankList" resultType="com.geek.shengka.content.entity.vo.SkSearchSourceVO">
+        SELECT
+        srl.id  AS sourceId,
+        srl.rank_logo AS sourceCoverUrl,
+        srl.rank_name AS sourceName,
+        srl.rank_banner AS sourceBanner,
+        srl.rank_rule AS sourceDesc,
+        srl.rank_type	AS sourceType,
+        srl.update_time AS updateTime
+        FROM
+        sk_search_module_mapping AS sm
+        INNER   JOIN sk_rank_list AS srl ON sm.source_id = srl.id
+        WHERE
+        sm.config_id =#{configId,jdbcType=BIGINT}
+        AND srl.`enable`=0
+        ORDER BY sm.seq ASC
+        <if test="startRecordNumb!=null and pageCount!=null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+        </if>
+
+    </select>
+    <sql id="condition">
+    </sql>
+
+</mapper>

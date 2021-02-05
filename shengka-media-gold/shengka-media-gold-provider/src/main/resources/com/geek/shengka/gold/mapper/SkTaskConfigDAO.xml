@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.gold.mapper.SkTaskConfigDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.gold.entity.SkTaskConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="task_name" jdbcType="VARCHAR" property="taskName" />
+    <result column="task_intro" jdbcType="VARCHAR" property="taskIntro" />
+    <result column="task_type" jdbcType="TINYINT" property="taskType" />
+    <result column="trigger_event" jdbcType="TINYINT" property="triggerEvent" />
+    <result column="receive_limit" jdbcType="INTEGER" property="receiveLimit" />
+    <result column="award_amount_type" jdbcType="TINYINT" property="awardAmountType" />
+    <result column="award_fix_amount" jdbcType="INTEGER" property="awardFixAmount" />
+    <result column="award_min" jdbcType="INTEGER" property="awardMin" />
+    <result column="award_max" jdbcType="INTEGER" property="awardMax" />
+    <result column="task_state" jdbcType="TINYINT" property="taskState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, task_name, task_intro, task_type, trigger_event, receive_limit, award_amount_type, 
+    award_fix_amount, award_min, award_max, task_state, create_time, create_by, update_time, 
+    update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_task_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_task_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.gold.entity.SkTaskConfig">
+    insert into sk_task_config (id, task_name, task_intro, 
+      task_type, trigger_event, receive_limit, 
+      award_amount_type, award_fix_amount, award_min, 
+      award_max, task_state, create_time, 
+      create_by, update_time, update_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{taskName,jdbcType=VARCHAR}, #{taskIntro,jdbcType=VARCHAR}, 
+      #{taskType,jdbcType=TINYINT}, #{triggerEvent,jdbcType=TINYINT}, #{receiveLimit,jdbcType=INTEGER}, 
+      #{awardAmountType,jdbcType=TINYINT}, #{awardFixAmount,jdbcType=INTEGER}, #{awardMin,jdbcType=INTEGER}, 
+      #{awardMax,jdbcType=INTEGER}, #{taskState,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.gold.entity.SkTaskConfig">
+    insert into sk_task_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="taskName != null">
+        task_name,
+      </if>
+      <if test="taskIntro != null">
+        task_intro,
+      </if>
+      <if test="taskType != null">
+        task_type,
+      </if>
+      <if test="triggerEvent != null">
+        trigger_event,
+      </if>
+      <if test="receiveLimit != null">
+        receive_limit,
+      </if>
+      <if test="awardAmountType != null">
+        award_amount_type,
+      </if>
+      <if test="awardFixAmount != null">
+        award_fix_amount,
+      </if>
+      <if test="awardMin != null">
+        award_min,
+      </if>
+      <if test="awardMax != null">
+        award_max,
+      </if>
+      <if test="taskState != null">
+        task_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="taskName != null">
+        #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskIntro != null">
+        #{taskIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null">
+        #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="triggerEvent != null">
+        #{triggerEvent,jdbcType=TINYINT},
+      </if>
+      <if test="receiveLimit != null">
+        #{receiveLimit,jdbcType=INTEGER},
+      </if>
+      <if test="awardAmountType != null">
+        #{awardAmountType,jdbcType=TINYINT},
+      </if>
+      <if test="awardFixAmount != null">
+        #{awardFixAmount,jdbcType=INTEGER},
+      </if>
+      <if test="awardMin != null">
+        #{awardMin,jdbcType=INTEGER},
+      </if>
+      <if test="awardMax != null">
+        #{awardMax,jdbcType=INTEGER},
+      </if>
+      <if test="taskState != null">
+        #{taskState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.gold.entity.SkTaskConfig">
+    update sk_task_config
+    <set>
+      <if test="taskName != null">
+        task_name = #{taskName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskIntro != null">
+        task_intro = #{taskIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="taskType != null">
+        task_type = #{taskType,jdbcType=TINYINT},
+      </if>
+      <if test="triggerEvent != null">
+        trigger_event = #{triggerEvent,jdbcType=TINYINT},
+      </if>
+      <if test="receiveLimit != null">
+        receive_limit = #{receiveLimit,jdbcType=INTEGER},
+      </if>
+      <if test="awardAmountType != null">
+        award_amount_type = #{awardAmountType,jdbcType=TINYINT},
+      </if>
+      <if test="awardFixAmount != null">
+        award_fix_amount = #{awardFixAmount,jdbcType=INTEGER},
+      </if>
+      <if test="awardMin != null">
+        award_min = #{awardMin,jdbcType=INTEGER},
+      </if>
+      <if test="awardMax != null">
+        award_max = #{awardMax,jdbcType=INTEGER},
+      </if>
+      <if test="taskState != null">
+        task_state = #{taskState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.gold.entity.SkTaskConfig">
+    update sk_task_config
+    set task_name = #{taskName,jdbcType=VARCHAR},
+      task_intro = #{taskIntro,jdbcType=VARCHAR},
+      task_type = #{taskType,jdbcType=TINYINT},
+      trigger_event = #{triggerEvent,jdbcType=TINYINT},
+      receive_limit = #{receiveLimit,jdbcType=INTEGER},
+      award_amount_type = #{awardAmountType,jdbcType=TINYINT},
+      award_fix_amount = #{awardFixAmount,jdbcType=INTEGER},
+      award_min = #{awardMin,jdbcType=INTEGER},
+      award_max = #{awardMax,jdbcType=INTEGER},
+      task_state = #{taskState,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+  <select id="dailyConfig" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sk_task_config
+    where task_state=0
+  </select>
+  
+  <select id="selectByTriggerEvent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_task_config 
+    where task_state=0 and trigger_event = #{triggerEvent,jdbcType=TINYINT}
+  </select>
+
+    <select id="globalConfig" resultMap="BaseResultMap">
+        select award_fix_amount
+        from sk_task_config
+        where  task_state=0 and trigger_event=5
+        limit 1
+    </select>
+</mapper>

@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.gold.mapper.SkUserTreasureBoxRecordDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.gold.entity.SkUserTreasureBoxRecord">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="treasure_id" jdbcType="VARCHAR" property="treasureId" />
+    <result column="gold_coin_win" jdbcType="DECIMAL" property="goldCoinWin" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="handle_state" jdbcType="TINYINT" property="handleState" />
+    <result column="handle_remark" jdbcType="VARCHAR" property="handleRemark" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="scychronize_flag" jdbcType="VARCHAR" property="scychronizeFlag" />
+    <result column="process_cts" jdbcType="INTEGER" property="processCts" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, treasure_id, gold_coin_win, `state`, create_time, update_time, trade_no, 
+    handle_state, handle_remark, order_no, scychronize_flag, process_cts
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_user_treasure_box_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_user_treasure_box_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.gold.entity.SkUserTreasureBoxRecord">
+    insert into sk_user_treasure_box_record (id, user_id, treasure_id, 
+      gold_coin_win, `state`, create_time, 
+      update_time, trade_no, handle_state, 
+      handle_remark, order_no, scychronize_flag, 
+      process_cts)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{treasureId,jdbcType=VARCHAR}, 
+      #{goldCoinWin,jdbcType=DECIMAL}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{tradeNo,jdbcType=VARCHAR}, #{handleState,jdbcType=TINYINT}, 
+      #{handleRemark,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{scychronizeFlag,jdbcType=VARCHAR}, 
+      #{processCts,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.gold.entity.SkUserTreasureBoxRecord" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+    insert into sk_user_treasure_box_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="treasureId != null">
+        treasure_id,
+      </if>
+      <if test="goldCoinWin != null">
+        gold_coin_win,
+      </if>
+      <if test="state != null">
+        `state`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="handleState != null">
+        handle_state,
+      </if>
+      <if test="handleRemark != null">
+        handle_remark,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="scychronizeFlag != null">
+        scychronize_flag,
+      </if>
+      <if test="processCts != null">
+        process_cts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="treasureId != null">
+        #{treasureId,jdbcType=VARCHAR},
+      </if>
+      <if test="goldCoinWin != null">
+        #{goldCoinWin,jdbcType=DECIMAL},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="handleState != null">
+        #{handleState,jdbcType=TINYINT},
+      </if>
+      <if test="handleRemark != null">
+        #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="scychronizeFlag != null">
+        #{scychronizeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="processCts != null">
+        #{processCts,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.gold.entity.SkUserTreasureBoxRecord">
+    update sk_user_treasure_box_record
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="treasureId != null">
+        treasure_id = #{treasureId,jdbcType=VARCHAR},
+      </if>
+      <if test="goldCoinWin != null">
+        gold_coin_win = #{goldCoinWin,jdbcType=DECIMAL},
+      </if>
+      <if test="state != null">
+        `state` = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="handleState != null">
+        handle_state = #{handleState,jdbcType=TINYINT},
+      </if>
+      <if test="handleRemark != null">
+        handle_remark = #{handleRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="scychronizeFlag != null">
+        scychronize_flag = #{scychronizeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="processCts != null">
+        process_cts = #{processCts,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.gold.entity.SkUserTreasureBoxRecord">
+    update sk_user_treasure_box_record
+    set user_id = #{userId,jdbcType=BIGINT},
+      treasure_id = #{treasureId,jdbcType=VARCHAR},
+      gold_coin_win = #{goldCoinWin,jdbcType=DECIMAL},
+      `state` = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      handle_state = #{handleState,jdbcType=TINYINT},
+      handle_remark = #{handleRemark,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      scychronize_flag = #{scychronizeFlag,jdbcType=VARCHAR},
+      process_cts = #{processCts,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+<select id="selectUserRecordByDay" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sk_user_treasure_box_record
+    where user_id = #{userId}
+    <if test=" createTimeStart != null and createTimeStart!=''">
+        and create_time <![CDATA[ >= ]]> #{createTimeStart}
+    </if>
+
+    <if test=" createTimeEnd != null and createTimeEnd !=''">
+        and create_time  <![CDATA[ <= ]]> #{createTimeEnd}
+    </if>
+    <if test="state != null">
+        and `state` = #{state}
+    </if>
+</select>
+
+<select id="selectByOrderNo" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sk_user_treasure_box_record
+    where  order_no = #{orderNo} and handle_state=0
+</select>
+</mapper>

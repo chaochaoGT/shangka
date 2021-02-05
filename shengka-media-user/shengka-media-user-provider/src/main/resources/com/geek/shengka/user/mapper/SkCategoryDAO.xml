@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.user.mapper.SkCategoryDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.user.entity.SkCategory">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="enable" jdbcType="INTEGER" property="enable" />
+    <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="category_type" jdbcType="TINYINT" property="categoryType" />
+  </resultMap>
+    <sql id="condition">
+        sc.`enable`=1
+        <if test="channel != null and channel !=''">
+            AND ch.channel_code= #{channel,jdbcType=VARCHAR}
+        </if>
+        <if test="categoryType != null ">
+            AND sc.category_type =#{categoryType, jdbcType=INTEGER}
+        </if>
+        <if test="ids != null and ids.size > 0">
+            AND sc.id NOT in
+            <foreach collection="ids"  item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <sql id="Base_Column_List">
+    id, category_name, `enable`, icon_url, seq, update_time, create_time, create_by, 
+    update_by,category_type
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_category
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+    <select id="categoryList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        SELECT
+        sc.id,
+        sc.category_name,
+        sc.enable,
+        sc.icon_url,
+        sc.seq,
+        sc.update_time,
+        sc.create_time,
+        sc.create_by,
+        sc.update_by,
+        sc.category_type
+        FROM
+        sk_category AS sc
+         LEFT JOIN sk_channel_category AS chc ON sc.id=chc.category_id
+        <if test="channel != null and channel !=''">
+         LEFT JOIN sk_channel AS ch ON chc.channel_id=ch.id
+        </if>
+        WHERE
+        <include refid="condition"></include>
+        order by sc.seq desc
+        <if test="startRecordNumb!=null and pageCount != null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+        </if>
+
+    </select>
+    <select id="selectByParams" resultMap="BaseResultMap">
+        SELECT
+        sc.id,
+        sc.category_name,
+        sc.enable,
+        sc.icon_url,
+        sc.seq,
+        sc.update_time,
+        sc.create_time,
+        sc.create_by,
+        sc.update_by,
+        sc.category_type
+        FROM
+        sk_category AS sc
+        <if test="channel != null and channel !=''">
+            LEFT JOIN sk_channel_category AS scc ON sc.id = scc.category_id
+            LEFT JOIN sk_channel AS ch ON scc.channel_id = ch.id
+        </if>
+        WHERE
+        sc.enable = 1
+        and sc.id = #{categoryId,jdbcType=BIGINT}
+        <if test="channel != null and channel !=''">
+            AND ch.channel_code=#{channel,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_category
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.user.entity.SkCategory">
+    insert into sk_category (id, category_name, `enable`, 
+      icon_url, seq, update_time, 
+      create_time, create_by, update_by,category_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{categoryName,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, 
+      #{iconUrl,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR},
+      #{categoryType,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.user.entity.SkCategory">
+    insert into sk_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="categoryName != null">
+        category_name,
+      </if>
+      <if test="enable != null">
+        `enable`,
+      </if>
+      <if test="iconUrl != null">
+        icon_url,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+      <if test="categoryType != null">
+          category_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="categoryName != null">
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="iconUrl != null">
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryType != null">
+        #{categoryType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.user.entity.SkCategory">
+    update sk_category
+    <set>
+      <if test="categoryName != null">
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        `enable` = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="iconUrl != null">
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+        <if test="categoryType != null">
+            category_type  #{categoryType,jdbcType=TINYINT},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.user.entity.SkCategory">
+    update sk_category
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      `enable` = #{enable,jdbcType=INTEGER},
+      icon_url = #{iconUrl,jdbcType=VARCHAR},
+      seq = #{seq,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+      category_type  #{categoryType,jdbcType=TINYINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

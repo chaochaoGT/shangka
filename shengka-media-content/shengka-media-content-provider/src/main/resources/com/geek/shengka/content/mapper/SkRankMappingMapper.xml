@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.content.mapper.SkRankMappingMapper" >
+  <resultMap id="BaseResultMap" type="com.geek.shengka.content.entity.SkRankMapping" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="rank_id" property="rankId" jdbcType="BIGINT" />
+    <result column="rank_type" property="rankType" jdbcType="TINYINT" />
+    <result column="rel_id" property="relId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, rank_id, rank_type, rel_id, create_time, create_by, update_time, update_by,seq
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sk_rank_mapping
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sk_rank_mapping
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.content.entity.SkRankMapping" >
+    insert into sk_rank_mapping (rank_id, rank_type, rel_id, 
+      create_time, create_by, update_time, 
+      update_by,seq)
+    values (#{rankId,jdbcType=BIGINT}, #{rankType,jdbcType=TINYINT}, #{relId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR},#{seq,jdbcType=INTEGER})
+		<selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.content.entity.SkRankMapping" >
+    insert into sk_rank_mapping
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rankId != null" >
+        rank_id,
+      </if>
+      <if test="rankType != null" >
+        rank_type,
+      </if>
+      <if test="relId != null" >
+        rel_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="seq != null" >
+          seq,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rankId != null" >
+        #{rankId,jdbcType=BIGINT},
+      </if>
+      <if test="rankType != null" >
+        #{rankType,jdbcType=TINYINT},
+      </if>
+      <if test="relId != null" >
+        #{relId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+        <if test="seq != null" >
+            #{seq,jdbcType=INTEGER}
+        </if>
+    </trim>
+		<selectKey keyProperty="id" resultType="java.lang.Long" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.content.entity.SkRankMapping" >
+    update sk_rank_mapping
+    <set >
+      <if test="rankId != null" >
+        rank_id = #{rankId,jdbcType=BIGINT},
+      </if>
+      <if test="rankType != null" >
+        rank_type = #{rankType,jdbcType=TINYINT},
+      </if>
+      <if test="relId != null" >
+        rel_id = #{relId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+        <if test="seq != null" >
+          seq=  #{seq,jdbcType=INTEGER},
+        </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.content.entity.SkRankMapping" >
+    update sk_rank_mapping
+    set rank_id = #{rankId,jdbcType=BIGINT},
+      rank_type = #{rankType,jdbcType=TINYINT},
+      rel_id = #{relId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR},
+       seq=  #{seq,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+	<select id="selectSkRankMappingCount" resultType="java.lang.Long" parameterType="java.util.Map" >
+		select count(*)
+		from sk_rank_mapping
+		where 1=1
+		<include refid="condition"></include>
+	</select>
+
+	<select id="selectSkRankMappingList" resultMap="BaseResultMap" parameterType="java.util.Map" >
+		select 
+		<include refid="Base_Column_List" />
+		from sk_rank_mapping
+		where 1=1
+		<include refid="condition"></include>
+		<if test="startRecordNumb!=null and pageCount!=null">
+			limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+		</if>
+	</select>
+    <select id="getPopularRankList" resultType="com.geek.shengka.content.entity.vo.SkSearchSourceVO"
+            parameterType="java.util.Map">
+        <if test="sourceType !=null and sourceType == 1 and rankId != null">
+            SELECT
+            sp.id  AS sourceId,
+            sp.cover_image_url AS sourceCoverUrl,
+            sp.title AS sourceName,
+            sp.video_url AS sourceUrl
+            FROM sk_rank_mapping sr
+            LEFT JOIN  sk_publish_video sp ON sp.id =sr.rel_id
+            WHERE
+            sp.`enable`=1
+            and sr.rank_id=#{rankId,jdbcType=BIGINT}
+            and sr.rank_type=1
+            ORDER BY sr.seq
+            <if test="startRecordNumb!=null and pageCount!=null">
+                limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+            </if>
+        </if>
+
+        <if test="sourceType !=null and sourceType == 2 and rankId != null">
+            SELECT
+            sp.user_id as sourceId,
+            sp.user_icon AS sourceIconUrl,
+            sp.nick_name AS sourceName,
+            sp.remark AS sourceDesc,
+            sp.sk_code AS sourceNo,
+            sp.fans_num AS fansNums,
+            sp.gender  AS gender,
+            CASE WHEN sf.user_id=#{userId,jdbcType=BIGINT} THEN 1 ELSE 0 END attentionFlag
+            FROM sk_rank_mapping sr
+            LEFT JOIN  sk_user_base_info sp  ON sp.user_id =sr.rel_id
+            LEFT JOIN  sk_fans  sf   ON sf.attention_user_id=sp.user_id AND sf.user_id=#{userId,jdbcType=BIGINT}
+            WHERE sr.rank_type=2
+            and sr.rank_id=#{rankId,jdbcType=BIGINT}
+            ORDER BY sr.seq
+            <if test="startRecordNumb!=null and pageCount!=null">
+                limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+            </if>
+        </if>
+        <if test="sourceType !=null and sourceType == 3 and rankId != null">
+            SELECT
+            sp.id  AS sourceId,
+            sp.topic_logo AS sourceIconUrl,
+            sp.topic_name AS sourceName,
+            sp.topic_intro AS sourceDesc,
+            sp.push_count AS pushNumbs,
+            sp.topic_tag AS topicTag,
+            sp.watch_count AS watchTimes
+            FROM sk_rank_mapping sr
+            LEFT  JOIN sk_topic_config sp  ON sp.id =sr.rel_id
+            WHERE
+            sp.`enable`= 0
+            and sr.rank_id=#{rankId,jdbcType=BIGINT}
+            and sr.rank_type=3
+            ORDER BY sp.watch_count desc, sr.seq
+            <if test="startRecordNumb!=null and pageCount!=null">
+                limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+            </if>
+        </if>
+
+    </select>
+    <select id="getTopOneObjInfo" resultType="com.geek.shengka.content.entity.vo.SkSearchSourceVO">
+        <if test="sourceType !=null and sourceType == 1 and rankId != null">
+            SELECT
+            sp.id AS sourceId,
+            sp.cover_image_url AS sourceIconUrl,
+            sp.title AS sourceName,
+            sp.video_url AS sourceUrl
+            FROM
+              sk_rank_mapping sr
+            LEFT JOIN sk_publish_video sp ON sp.id = sr.rel_id
+            WHERE
+            sp.`enable` = 1
+            AND sr.rank_id =#{rankId,jdbcType=BIGINT}
+            ORDER BY
+            sr.seq
+            LIMIT 1
+        </if>
+
+        <if test="sourceType !=null and sourceType == 2 and rankId != null">
+            SELECT
+            sp.user_id  AS  sourceId,
+            sp.user_icon AS sourceIconUrl,
+            sp.nick_name AS  sourceName,
+            sp.remark  AS sourceDesc,
+            sp.fans_num AS fansNums
+            FROM
+            sk_rank_mapping sr
+            LEFT JOIN sk_user_base_info sp ON sp.user_id =sr.rel_id
+            WHERE sr.rank_id=#{rankId,jdbcType=BIGINT}
+            ORDER BY sr.seq
+            LIMIT 1
+        </if>
+        <if test="sourceType !=null and sourceType == 3 and rankId != null">
+            SELECT
+            sp.id   AS sourceId,
+            sp.topic_logo AS sourceIconUrl,
+            sp.topic_name  AS sourceName,
+            sp.topic_intro AS  sourceDesc,
+            sp.push_count AS pushNumbs,
+            sp.topic_tag  AS topicTag,
+            sp.watch_count AS watchTimes
+            FROM
+              sk_rank_mapping sr
+            LEFT JOIN sk_topic_config sp  ON sp.id =sr.rel_id
+            WHERE
+            sp.`enable`= 0
+            AND sr.rank_id=#{rankId,jdbcType=BIGINT}
+            ORDER BY sr.seq
+            LIMIT 1
+        </if>
+    </select>
+
+    <sql id="condition">
+	</sql>
+	
+</mapper>

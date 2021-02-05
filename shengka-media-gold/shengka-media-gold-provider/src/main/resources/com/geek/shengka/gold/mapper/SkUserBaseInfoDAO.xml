@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.gold.mapper.SkUserBaseInfoDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.gold.entity.SkUserBaseInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="sk_code" jdbcType="VARCHAR" property="skCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="background" jdbcType="VARCHAR" property="background" />
+    <result column="thumbs_num" jdbcType="INTEGER" property="thumbsNum" />
+    <result column="subscribe_topic_num" jdbcType="INTEGER" property="subscribeTopicNum" />
+    <result column="publish_num" jdbcType="INTEGER" property="publishNum" />
+    <result column="voice_num" jdbcType="INTEGER" property="voiceNum" />
+    <result column="fans_num" jdbcType="INTEGER" property="fansNum" />
+    <result column="liked_num" jdbcType="INTEGER" property="likedNum" />
+    <result column="nearest_num" jdbcType="INTEGER" property="nearestNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, sk_code, remark, background, thumbs_num, subscribe_topic_num, publish_num, 
+    voice_num, fans_num, liked_num, nearest_num, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_user_base_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_user_base_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.gold.entity.SkUserBaseInfo">
+    insert into sk_user_base_info (id, user_id, sk_code, 
+      remark, background, thumbs_num, 
+      subscribe_topic_num, publish_num, voice_num, 
+      fans_num, liked_num, nearest_num, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{skCode,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR}, #{thumbsNum,jdbcType=INTEGER}, 
+      #{subscribeTopicNum,jdbcType=INTEGER}, #{publishNum,jdbcType=INTEGER}, #{voiceNum,jdbcType=INTEGER}, 
+      #{fansNum,jdbcType=INTEGER}, #{likedNum,jdbcType=INTEGER}, #{nearestNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.gold.entity.SkUserBaseInfo">
+    insert into sk_user_base_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="skCode != null">
+        sk_code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="background != null">
+        background,
+      </if>
+      <if test="thumbsNum != null">
+        thumbs_num,
+      </if>
+      <if test="subscribeTopicNum != null">
+        subscribe_topic_num,
+      </if>
+      <if test="publishNum != null">
+        publish_num,
+      </if>
+      <if test="voiceNum != null">
+        voice_num,
+      </if>
+      <if test="fansNum != null">
+        fans_num,
+      </if>
+      <if test="likedNum != null">
+        liked_num,
+      </if>
+      <if test="nearestNum != null">
+        nearest_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="skCode != null">
+        #{skCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="background != null">
+        #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbsNum != null">
+        #{thumbsNum,jdbcType=INTEGER},
+      </if>
+      <if test="subscribeTopicNum != null">
+        #{subscribeTopicNum,jdbcType=INTEGER},
+      </if>
+      <if test="publishNum != null">
+        #{publishNum,jdbcType=INTEGER},
+      </if>
+      <if test="voiceNum != null">
+        #{voiceNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null">
+        #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="likedNum != null">
+        #{likedNum,jdbcType=INTEGER},
+      </if>
+      <if test="nearestNum != null">
+        #{nearestNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.gold.entity.SkUserBaseInfo">
+    update sk_user_base_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="skCode != null">
+        sk_code = #{skCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="background != null">
+        background = #{background,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbsNum != null">
+        thumbs_num = #{thumbsNum,jdbcType=INTEGER},
+      </if>
+      <if test="subscribeTopicNum != null">
+        subscribe_topic_num = #{subscribeTopicNum,jdbcType=INTEGER},
+      </if>
+      <if test="publishNum != null">
+        publish_num = #{publishNum,jdbcType=INTEGER},
+      </if>
+      <if test="voiceNum != null">
+        voice_num = #{voiceNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null">
+        fans_num = #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="likedNum != null">
+        liked_num = #{likedNum,jdbcType=INTEGER},
+      </if>
+      <if test="nearestNum != null">
+        nearest_num = #{nearestNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.gold.entity.SkUserBaseInfo">
+    update sk_user_base_info
+    set user_id = #{userId,jdbcType=BIGINT},
+      sk_code = #{skCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      background = #{background,jdbcType=VARCHAR},
+      thumbs_num = #{thumbsNum,jdbcType=INTEGER},
+      subscribe_topic_num = #{subscribeTopicNum,jdbcType=INTEGER},
+      publish_num = #{publishNum,jdbcType=INTEGER},
+      voice_num = #{voiceNum,jdbcType=INTEGER},
+      fans_num = #{fansNum,jdbcType=INTEGER},
+      liked_num = #{likedNum,jdbcType=INTEGER},
+      nearest_num = #{nearestNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

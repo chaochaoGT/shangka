@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.user.mapper.SkFansNoticeDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.user.entity.SkFansNotice">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="attention_user_id" jdbcType="BIGINT" property="attentionUserId" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="fans_state" jdbcType="TINYINT" property="fansState" />
+    <result column="notice_state" jdbcType="TINYINT" property="noticeState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, attention_user_id, notice_content, fans_state, notice_state, create_time, 
+    update_time, nick_name, user_icon
+  </sql>
+  
+  <resultMap id="NoticeListResultMap" type="com.geek.shengka.user.entity.vo.SkFansNoticeVo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="fans_state" jdbcType="TINYINT" property="fansState" />
+    <result column="notice_state" jdbcType="TINYINT" property="noticeState" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
+  </resultMap>
+  <sql id="NoticeList_Column_List">
+    id, user_id,notice_content, fans_state, notice_state, create_time,nick_name,user_icon
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_fans_notice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_fans_notice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.user.entity.SkFansNotice" useGeneratedKeys="true">
+    insert into sk_fans_notice (user_id, attention_user_id, notice_content, 
+      fans_state, notice_state, create_time, 
+      update_time, nick_name, user_icon
+      )
+    values (#{userId,jdbcType=BIGINT}, #{attentionUserId,jdbcType=BIGINT}, #{noticeContent,jdbcType=VARCHAR}, 
+      #{fansState,jdbcType=TINYINT}, #{noticeState,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{nickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.user.entity.SkFansNotice" useGeneratedKeys="true">
+    insert into sk_fans_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="attentionUserId != null">
+        attention_user_id,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+      <if test="fansState != null">
+        fans_state,
+      </if>
+      <if test="noticeState != null">
+        notice_state,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="nickName != null">
+        nick_name,
+      </if>
+      <if test="userIcon != null">
+        user_icon,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="attentionUserId != null">
+        #{attentionUserId,jdbcType=BIGINT},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fansState != null">
+        #{fansState,jdbcType=TINYINT},
+      </if>
+      <if test="noticeState != null">
+        #{noticeState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIcon != null">
+        #{userIcon,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.user.entity.SkFansNotice">
+    update sk_fans_notice
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="attentionUserId != null">
+        attention_user_id = #{attentionUserId,jdbcType=BIGINT},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="fansState != null">
+        fans_state = #{fansState,jdbcType=TINYINT},
+      </if>
+      <if test="noticeState != null">
+        notice_state = #{noticeState,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nickName != null">
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userIcon != null">
+        user_icon = #{userIcon,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.user.entity.SkFansNotice">
+    update sk_fans_notice
+    set user_id = #{userId,jdbcType=BIGINT},
+      attention_user_id = #{attentionUserId,jdbcType=BIGINT},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
+      fans_state = #{fansState,jdbcType=TINYINT},
+      notice_state = #{noticeState,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      user_icon = #{userIcon,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+ <select id="findFansListByUserId" parameterType="java.lang.Long" resultMap="NoticeListResultMap">
+    select 
+    <include refid="NoticeList_Column_List" />
+    from sk_fans_notice
+     where 1=1 
+     <if test="userId != null">
+      and  attention_user_id = #{userId,jdbcType=BIGINT}
+     </if>
+    order by create_time desc
+     <if test="startRecordNumb!=null and pageCount!=null">
+         limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+     </if>
+  </select>
+</mapper>

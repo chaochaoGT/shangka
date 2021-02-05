@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.user.mapper.SkRecommendUserConfigDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.user.entity.SkRecommendUserConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="show_num" jdbcType="INTEGER" property="showNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="user_icon" jdbcType="VARCHAR" property="userIcon" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, seq, show_num, create_time, update_time, user_icon, user_name
+  </sql>
+
+    <sql id="condition">
+
+    </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_recommend_user_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+    <select id="getUpList" resultType="com.geek.shengka.user.entity.vo.SkRecommendUserConfigVO">
+        SELECT
+        sru.user_id as userId,
+        sru.show_num as showNum,
+        sru.user_icon as userIcon,
+        <if test="userId !=null and userId > 0">
+        CASE WHEN sf.user_id = #{userId,jdbcType=BIGINT} THEN 1 ELSE 0 END attenttionFlag,
+        </if>
+        sru.user_name as userName
+        FROM
+        sk_recommend_user_config AS sru
+        <if test="userId !=null and userId > 0">
+        LEFT  JOIN sk_fans AS sf ON sru.user_id = sf.attention_user_id AND sf.user_id = #{userId,jdbcType=BIGINT}
+        </if>
+        order by sru.seq
+        <if test="startRecordNumb!=null and pageCount!=null">
+            limit #{startRecordNumb,jdbcType=INTEGER},#{pageCount,jdbcType=INTEGER}
+        </if>
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_recommend_user_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.user.entity.SkRecommendUserConfig">
+    insert into sk_recommend_user_config (id, user_id, seq, 
+      show_num, create_time, update_time, 
+      user_icon, user_name)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{seq,jdbcType=INTEGER}, 
+      #{showNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{userIcon,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.user.entity.SkRecommendUserConfig">
+    insert into sk_recommend_user_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="showNum != null">
+        show_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="userIcon != null">
+        user_icon,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="showNum != null">
+        #{showNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userIcon != null">
+        #{userIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.user.entity.SkRecommendUserConfig">
+    update sk_recommend_user_config
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="showNum != null">
+        show_num = #{showNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userIcon != null">
+        user_icon = #{userIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.user.entity.SkRecommendUserConfig">
+    update sk_recommend_user_config
+    set user_id = #{userId,jdbcType=BIGINT},
+      seq = #{seq,jdbcType=INTEGER},
+      show_num = #{showNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_icon = #{userIcon,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

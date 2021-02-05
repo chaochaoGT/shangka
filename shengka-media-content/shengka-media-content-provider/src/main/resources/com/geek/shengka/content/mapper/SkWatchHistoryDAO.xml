@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.content.mapper.SkWatchHistoryDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.content.entity.SkWatchHistory">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="video_id" jdbcType="VARCHAR" property="videoId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, video_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sk_watch_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sk_watch_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.geek.shengka.content.entity.SkWatchHistory">
+    insert into sk_watch_history (id, user_id, video_id, 
+      create_time)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{videoId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.geek.shengka.content.entity.SkWatchHistory">
+    insert into sk_watch_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="videoId != null">
+        video_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="videoId != null">
+        #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.content.entity.SkWatchHistory">
+    update sk_watch_history
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="videoId != null">
+        video_id = #{videoId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.content.entity.SkWatchHistory">
+    update sk_watch_history
+    set user_id = #{userId,jdbcType=BIGINT},
+      video_id = #{videoId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <select id="selectByUidAndVideoId"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sk_watch_history
+        where user_id = #{userId} and video_id=#{videoId}
+    </select>
+
+   <select id="selectUserWatchHistory"  resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sk_watch_history
+        where user_id = #{userId,jdbcType=BIGINT}
+        order by create_time desc
+        limit  ${start},${size}
+   </select>
+
+   <delete id="delUserWatchHistory">
+    delete from sk_watch_history
+    where user_id = #{userId,jdbcType=BIGINT}
+    <if test="videoIds != null">
+       and video_id in
+        <foreach item="item" collection="videoIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </if>
+   </delete>
+</mapper>
