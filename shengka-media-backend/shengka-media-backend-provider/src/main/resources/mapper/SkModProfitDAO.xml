@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkModProfitDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkModProfit">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="os_system" property="osSystem" jdbcType="SMALLINT"/>
+        <result column="date" property="date" jdbcType="TIMESTAMP"/>
+        <result column="mod_profit" property="modProfit" jdbcType="DECIMAL"/>
+        <result column="profit_type" property="profitType" jdbcType="VARCHAR"/>
+        <result column="profit_main" property="profitMain" jdbcType="VARCHAR"/>
+        <result column="ad_ecpm" property="adEcpm" jdbcType="DECIMAL"/>
+        <result column="orders" property="orders" jdbcType="BIGINT"/>
+        <result column="orders_suc" property="ordersSuc" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="LlspModProfitDTO" type="com.geek.shengka.backend.params.res.SkModProfitResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, os_system, date, mod_profit, profit_type, profit_main, ad_ecpm, orders, orders_suc,
+    create_time, update_time, create_by, update_by
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_mod_profit
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="LlspModProfitDTO">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_mod_profit
+        <where>
+            <if test="profitMain!=null and profitMain!=''">
+                and profit_main like concat('%',#{profitMain},'%')
+            </if>
+            <if test="dateBegin!=null">
+                and `date` &gt;=#{dateBegin}
+            </if>
+            <if test="dateEnd!=null">
+                and `date` &lt;=#{dateEnd}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_mod_profit
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkModProfit">
+        insert into sk_mod_profit (id, os_system, date,
+                                   mod_profit, profit_type, profit_main,
+                                   ad_ecpm, orders, orders_suc,
+                                   create_time, update_time, create_by,
+                                   update_by)
+        values (#{id,jdbcType=BIGINT}, #{osSystem,jdbcType=SMALLINT}, #{date,jdbcType=TIMESTAMP},
+                #{modProfit,jdbcType=DECIMAL}, #{profitType,jdbcType=VARCHAR}, #{profitMain,jdbcType=VARCHAR},
+                #{adEcpm,jdbcType=DECIMAL}, #{orders,jdbcType=BIGINT}, #{ordersSuc,jdbcType=BIGINT},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+                #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkModProfit">
+        insert into sk_mod_profit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="osSystem != null">
+                os_system,
+            </if>
+            <if test="date != null">
+                date,
+            </if>
+            <if test="modProfit != null">
+                mod_profit,
+            </if>
+            <if test="profitType != null">
+                profit_type,
+            </if>
+            <if test="profitMain != null">
+                profit_main,
+            </if>
+            <if test="adEcpm != null">
+                ad_ecpm,
+            </if>
+            <if test="orders != null">
+                orders,
+            </if>
+            <if test="ordersSuc != null">
+                orders_suc,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="osSystem != null">
+                #{osSystem,jdbcType=SMALLINT},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modProfit != null">
+                #{modProfit,jdbcType=DECIMAL},
+            </if>
+            <if test="profitType != null">
+                #{profitType,jdbcType=VARCHAR},
+            </if>
+            <if test="profitMain != null">
+                #{profitMain,jdbcType=VARCHAR},
+            </if>
+            <if test="adEcpm != null">
+                #{adEcpm,jdbcType=DECIMAL},
+            </if>
+            <if test="orders != null">
+                #{orders,jdbcType=BIGINT},
+            </if>
+            <if test="ordersSuc != null">
+                #{ordersSuc,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertBatch">
+        insert into sk_mod_profit (os_system, `date`, mod_profit,
+        profit_type, profit_main, ad_ecpm,
+        orders, orders_suc, create_by)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.osSystem,jdbcType=VARCHAR},
+            #{item.date,jdbcType=DATE},
+            #{item.modProfit,jdbcType=DECIMAL},
+            #{item.profitType,jdbcType=VARCHAR},
+            #{item.profitMain,jdbcType=VARCHAR},
+            #{item.adEcpm,jdbcType=DECIMAL},
+            #{item.orders,jdbcType=BIGINT},
+            #{item.ordersSuc,jdbcType=BIGINT},
+            #{item.createBy,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkModProfit">
+        update sk_mod_profit
+        <set>
+            <if test="osSystem != null">
+                os_system = #{osSystem,jdbcType=SMALLINT},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modProfit != null">
+                mod_profit = #{modProfit,jdbcType=DECIMAL},
+            </if>
+            <if test="profitType != null">
+                profit_type = #{profitType,jdbcType=VARCHAR},
+            </if>
+            <if test="profitMain != null">
+                profit_main = #{profitMain,jdbcType=VARCHAR},
+            </if>
+            <if test="adEcpm != null">
+                ad_ecpm = #{adEcpm,jdbcType=DECIMAL},
+            </if>
+            <if test="orders != null">
+                orders = #{orders,jdbcType=BIGINT},
+            </if>
+            <if test="ordersSuc != null">
+                orders_suc = #{ordersSuc,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkModProfit">
+        update sk_mod_profit
+        set os_system   = #{osSystem,jdbcType=SMALLINT},
+            date        = #{date,jdbcType=TIMESTAMP},
+            mod_profit  = #{modProfit,jdbcType=DECIMAL},
+            profit_type = #{profitType,jdbcType=VARCHAR},
+            profit_main = #{profitMain,jdbcType=VARCHAR},
+            ad_ecpm     = #{adEcpm,jdbcType=DECIMAL},
+            orders      = #{orders,jdbcType=BIGINT},
+            orders_suc  = #{ordersSuc,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            update_by   = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="truncate">
+        TRUNCATE table sk_mod_profit
+    </update>
+</mapper>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.backend.mapper.SkTopicConfigDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkTopicConfig">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="topic_name" jdbcType="VARCHAR" property="topicName"/>
+        <result column="topic_intro" jdbcType="VARCHAR" property="topicIntro"/>
+        <result column="topic_logo" jdbcType="VARCHAR" property="topicLogo"/>
+        <result column="push_count" jdbcType="INTEGER" property="pushCount"/>
+        <result column="topic_tag" jdbcType="TINYINT" property="topicTag"/>
+        <result column="seq" jdbcType="INTEGER" property="seq"/>
+        <result column="enable" jdbcType="TINYINT" property="enable"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+        <result column="topic_type" jdbcType="TINYINT" property="topicType"/>
+        <result column="watch_count" jdbcType="INTEGER" property="watchCount"/>
+    </resultMap>
+    <resultMap id="SkTopicConfigListResParam" type="com.geek.shengka.backend.params.res.SkTopicConfigListResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <resultMap id="SkTopicConfigInfoResParam" type="com.geek.shengka.backend.params.res.SkTopicConfigInfoResParam"
+               extends="BaseResultMap">
+        <collection property="topicVideos" ofType="com.geek.shengka.backend.params.res.SkTopicVideoInfoResParam">
+            <id column="topic_video_id" jdbcType="BIGINT" property="id"/>
+            <result column="topic_id" jdbcType="BIGINT" property="topicId"/>
+            <result column="video_id" jdbcType="VARCHAR" property="videoId"/>
+            <result column="video_seq" jdbcType="INTEGER" property="seq"/>
+            <result column="video_create_time" jdbcType="TIMESTAMP" property="createTime"/>
+            <result column="video_update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, topic_name, topic_intro, topic_logo, push_count, topic_tag, seq, `enable`,
+    create_time, create_by, update_time, update_by, topic_type, watch_count
+    </sql>
+    <sql id="Info_Column_List">
+        stc.id, stc.user_id, stc.topic_name, stc.topic_intro, stc.topic_logo, stc.push_count, stc.topic_tag, stc.seq, stc.`enable`,
+    stc.create_time, stc.create_by, stc.update_time, stc.update_by, stc.topic_type, stc.watch_count,
+    stv.id topic_video_id,stv.topic_id, stv.video_id, stv.seq video_seq, stv.create_time video_create_time, stv.update_time video_update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_topic_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkTopicConfigListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_topic_config
+        where topic_type = 0
+        <if test="topicName!=null">
+            and topic_name like concat('%',#{topicName},'%')
+        </if>
+        order by id DESC
+    </select>
+    <select id="getInfosByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_topic_config
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="countByTopicName" resultType="java.lang.Long">
+        select id
+        from sk_topic_config
+        where topic_name = #{topicName}
+    </select>
+    <select id="info" resultMap="SkTopicConfigInfoResParam">
+        select
+        <include refid="Info_Column_List"/>
+        from sk_topic_config stc left join sk_topic_video stv
+        on stc.id = stv.topic_id
+        where stc.id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_topic_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkTopicConfig">
+        insert into sk_topic_config (id, user_id, topic_name,
+                                     topic_intro, topic_logo, push_count,
+                                     topic_tag, seq, `enable`,
+                                     create_time, create_by, update_time,
+                                     update_by, topic_type, watch_count)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{topicName,jdbcType=VARCHAR},
+                #{topicIntro,jdbcType=VARCHAR}, #{topicLogo,jdbcType=VARCHAR}, #{pushCount,jdbcType=INTEGER},
+                #{topicTag,jdbcType=TINYINT}, #{seq,jdbcType=INTEGER}, #{enable,jdbcType=TINYINT},
+                #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR}, #{topicType,jdbcType=TINYINT}, #{watchCount,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.geek.shengka.backend.entity.SkTopicConfig">
+        insert into sk_topic_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="topicName != null">
+                topic_name,
+            </if>
+            <if test="topicIntro != null">
+                topic_intro,
+            </if>
+            <if test="topicLogo != null">
+                topic_logo,
+            </if>
+            <if test="pushCount != null">
+                push_count,
+            </if>
+            <if test="topicTag != null">
+                topic_tag,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="enable != null">
+                `enable`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+            <if test="topicType != null">
+                topic_type,
+            </if>
+            <if test="watchCount != null">
+                watch_count,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="topicName != null">
+                #{topicName,jdbcType=VARCHAR},
+            </if>
+            <if test="topicIntro != null">
+                #{topicIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="topicLogo != null">
+                #{topicLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="pushCount != null">
+                #{pushCount,jdbcType=INTEGER},
+            </if>
+            <if test="topicTag != null">
+                #{topicTag,jdbcType=TINYINT},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="topicType != null">
+                #{topicType,jdbcType=TINYINT},
+            </if>
+            <if test="watchCount != null">
+                #{watchCount,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkTopicConfig">
+        update sk_topic_config
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="topicName != null">
+                topic_name = #{topicName,jdbcType=VARCHAR},
+            </if>
+            <if test="topicIntro != null">
+                topic_intro = #{topicIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="topicLogo != null">
+                topic_logo = #{topicLogo,jdbcType=VARCHAR},
+            </if>
+            <if test="pushCount != null">
+                push_count = #{pushCount,jdbcType=INTEGER},
+            </if>
+            <if test="topicTag != null">
+                topic_tag = #{topicTag,jdbcType=TINYINT},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="enable != null">
+                `enable` = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="topicType != null">
+                topic_type = #{topicType,jdbcType=TINYINT},
+            </if>
+            <if test="watchCount != null">
+                watch_count = #{watchCount,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkTopicConfig">
+        update sk_topic_config
+        set user_id     = #{userId,jdbcType=BIGINT},
+            topic_name  = #{topicName,jdbcType=VARCHAR},
+            topic_intro = #{topicIntro,jdbcType=VARCHAR},
+            topic_logo  = #{topicLogo,jdbcType=VARCHAR},
+            push_count  = #{pushCount,jdbcType=INTEGER},
+            topic_tag   = #{topicTag,jdbcType=TINYINT},
+            seq         = #{seq,jdbcType=INTEGER},
+            `enable`    = #{enable,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=VARCHAR},
+            topic_type  = #{topicType,jdbcType=TINYINT},
+            watch_count = #{watchCount,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

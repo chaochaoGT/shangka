@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkUserBaseInfoDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkUserBaseInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="sk_code" property="skCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="background" property="background" jdbcType="VARCHAR"/>
+        <result column="thumbs_num" property="thumbsNum" jdbcType="INTEGER"/>
+        <result column="subscribe_topic_num" property="subscribeTopicNum" jdbcType="INTEGER"/>
+        <result column="publish_num" property="publishNum" jdbcType="INTEGER"/>
+        <result column="voice_num" property="voiceNum" jdbcType="INTEGER"/>
+        <result column="fans_num" property="fansNum" jdbcType="INTEGER"/>
+        <result column="liked_num" property="likedNum" jdbcType="INTEGER"/>
+        <result column="nearest_num" property="nearestNum" jdbcType="INTEGER"/>
+        <result column="gender" property="gender" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+        <result column="user_icon" property="userIcon" jdbcType="VARCHAR"/>
+        <result column="attention_num" property="attentionNum" jdbcType="INTEGER"/>
+        <result column="like_works_num" property="likeWorksNum" jdbcType="INTEGER"/>
+        <result column="resource" property="resource" jdbcType="TINYINT"/>
+    </resultMap>
+    <resultMap id="SkUserBaseInfoListResParam" type="com.geek.shengka.backend.params.res.SkUserBaseInfoListResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, sk_code, remark, background, thumbs_num, subscribe_topic_num, publish_num,
+    voice_num, fans_num, liked_num, nearest_num, gender, create_time, update_time, nick_name, 
+    user_icon, attention_num, like_works_num, resource
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_user_base_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkUserBaseInfoListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_user_base_info 
+        <where>
+            resource = 2 
+            <if test="nickName!=null and nickName!=''">
+                and MATCH(nick_name) AGAINST(#{nickName})
+            </if>
+            <if test="skCode!=null and skCode!=''">
+                and sk_code = #{skCode}
+            </if>
+            <if test="resource!=null">
+                and resource = #{resource}
+            </if>
+        </where>
+    </select>
+    <select id="selectExistIds" resultType="java.lang.Long">
+        select user_id
+        from sk_user_base_info
+        where user_id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_user_base_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkUserBaseInfo">
+        insert into sk_user_base_info (id, user_id, sk_code,
+                                       remark, background, thumbs_num,
+                                       subscribe_topic_num, publish_num, voice_num,
+                                       fans_num, liked_num, nearest_num,
+                                       gender, create_time, update_time,
+                                       nick_name, user_icon, attention_num,
+                                       like_works_num, resource)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{skCode,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR}, #{background,jdbcType=VARCHAR}, #{thumbsNum,jdbcType=INTEGER},
+                #{subscribeTopicNum,jdbcType=INTEGER}, #{publishNum,jdbcType=INTEGER}, #{voiceNum,jdbcType=INTEGER},
+                #{fansNum,jdbcType=INTEGER}, #{likedNum,jdbcType=INTEGER}, #{nearestNum,jdbcType=INTEGER},
+                #{gender,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                #{nickName,jdbcType=VARCHAR}, #{userIcon,jdbcType=VARCHAR}, #{attentionNum,jdbcType=INTEGER},
+                #{likeWorksNum,jdbcType=INTEGER}, #{resource,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkUserBaseInfo">
+        insert into sk_user_base_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="skCode != null">
+                sk_code,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="background != null">
+                background,
+            </if>
+            <if test="thumbsNum != null">
+                thumbs_num,
+            </if>
+            <if test="subscribeTopicNum != null">
+                subscribe_topic_num,
+            </if>
+            <if test="publishNum != null">
+                publish_num,
+            </if>
+            <if test="voiceNum != null">
+                voice_num,
+            </if>
+            <if test="fansNum != null">
+                fans_num,
+            </if>
+            <if test="likedNum != null">
+                liked_num,
+            </if>
+            <if test="nearestNum != null">
+                nearest_num,
+            </if>
+            <if test="gender != null">
+                gender,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="userIcon != null">
+                user_icon,
+            </if>
+            <if test="attentionNum != null">
+                attention_num,
+            </if>
+            <if test="likeWorksNum != null">
+                like_works_num,
+            </if>
+            <if test="resource != null">
+                resource,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="skCode != null">
+                #{skCode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="background != null">
+                #{background,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbsNum != null">
+                #{thumbsNum,jdbcType=INTEGER},
+            </if>
+            <if test="subscribeTopicNum != null">
+                #{subscribeTopicNum,jdbcType=INTEGER},
+            </if>
+            <if test="publishNum != null">
+                #{publishNum,jdbcType=INTEGER},
+            </if>
+            <if test="voiceNum != null">
+                #{voiceNum,jdbcType=INTEGER},
+            </if>
+            <if test="fansNum != null">
+                #{fansNum,jdbcType=INTEGER},
+            </if>
+            <if test="likedNum != null">
+                #{likedNum,jdbcType=INTEGER},
+            </if>
+            <if test="nearestNum != null">
+                #{nearestNum,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userIcon != null">
+                #{userIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="attentionNum != null">
+                #{attentionNum,jdbcType=INTEGER},
+            </if>
+            <if test="likeWorksNum != null">
+                #{likeWorksNum,jdbcType=INTEGER},
+            </if>
+            <if test="resource != null">
+                #{resource,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkUserBaseInfo">
+        update sk_user_base_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="skCode != null">
+                sk_code = #{skCode,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="background != null">
+                background = #{background,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbsNum != null">
+                thumbs_num = #{thumbsNum,jdbcType=INTEGER},
+            </if>
+            <if test="subscribeTopicNum != null">
+                subscribe_topic_num = #{subscribeTopicNum,jdbcType=INTEGER},
+            </if>
+            <if test="publishNum != null">
+                publish_num = #{publishNum,jdbcType=INTEGER},
+            </if>
+            <if test="voiceNum != null">
+                voice_num = #{voiceNum,jdbcType=INTEGER},
+            </if>
+            <if test="fansNum != null">
+                fans_num = #{fansNum,jdbcType=INTEGER},
+            </if>
+            <if test="likedNum != null">
+                liked_num = #{likedNum,jdbcType=INTEGER},
+            </if>
+            <if test="nearestNum != null">
+                nearest_num = #{nearestNum,jdbcType=INTEGER},
+            </if>
+            <if test="gender != null">
+                gender = #{gender,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="userIcon != null">
+                user_icon = #{userIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="attentionNum != null">
+                attention_num = #{attentionNum,jdbcType=INTEGER},
+            </if>
+            <if test="likeWorksNum != null">
+                like_works_num = #{likeWorksNum,jdbcType=INTEGER},
+            </if>
+            <if test="resource != null">
+                resource = #{resource,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkUserBaseInfo">
+        update sk_user_base_info
+        set user_id             = #{userId,jdbcType=BIGINT},
+            sk_code             = #{skCode,jdbcType=VARCHAR},
+            remark              = #{remark,jdbcType=VARCHAR},
+            background          = #{background,jdbcType=VARCHAR},
+            thumbs_num          = #{thumbsNum,jdbcType=INTEGER},
+            subscribe_topic_num = #{subscribeTopicNum,jdbcType=INTEGER},
+            publish_num         = #{publishNum,jdbcType=INTEGER},
+            voice_num           = #{voiceNum,jdbcType=INTEGER},
+            fans_num            = #{fansNum,jdbcType=INTEGER},
+            liked_num           = #{likedNum,jdbcType=INTEGER},
+            nearest_num         = #{nearestNum,jdbcType=INTEGER},
+            gender              = #{gender,jdbcType=SMALLINT},
+            create_time         = #{createTime,jdbcType=TIMESTAMP},
+            update_time         = #{updateTime,jdbcType=TIMESTAMP},
+            nick_name           = #{nickName,jdbcType=VARCHAR},
+            user_icon           = #{userIcon,jdbcType=VARCHAR},
+            attention_num       = #{attentionNum,jdbcType=INTEGER},
+            like_works_num      = #{likeWorksNum,jdbcType=INTEGER},
+            resource            = #{resource,jdbcType=TINYINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateVoiceNumPlusOne">
+        update sk_user_base_info
+        set voice_num=voice_num + 1
+        where user_id = #{userId}
+    </update>
+</mapper>

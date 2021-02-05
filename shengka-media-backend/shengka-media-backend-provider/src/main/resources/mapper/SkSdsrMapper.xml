@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.backend.mapper.SkSdsrMapper">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SklSdsr">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="os_system" jdbcType="VARCHAR" property="osSystem"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="cac" jdbcType="DECIMAL" property="cac"/>
+        <result column="profit" jdbcType="DECIMAL" property="profit"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, os_system, `date`, cac, profit
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_sdsr
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_sdsr
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.backend.entity.SklSdsr"
+            useGeneratedKeys="true">
+        insert into sk_sdsr (os_system, `date`, cac,
+                             profit)
+        values (#{osSystem,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{cac,jdbcType=DECIMAL},
+                #{profit,jdbcType=DECIMAL})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.backend.entity.SklSdsr"
+            useGeneratedKeys="true">
+        insert into sk_sdsr
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="osSystem != null">
+                os_system,
+            </if>
+            <if test="date != null">
+                `date`,
+            </if>
+            <if test="cac != null">
+                cac,
+            </if>
+            <if test="profit != null">
+                profit,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="osSystem != null">
+                #{osSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                #{date,jdbcType=DATE},
+            </if>
+            <if test="cac != null">
+                #{cac,jdbcType=DECIMAL},
+            </if>
+            <if test="profit != null">
+                #{profit,jdbcType=DECIMAL},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SklSdsr">
+        update sk_sdsr
+        <set>
+            <if test="osSystem != null">
+                os_system = #{osSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="date != null">
+                `date` = #{date,jdbcType=DATE},
+            </if>
+            <if test="cac != null">
+                cac = #{cac,jdbcType=DECIMAL},
+            </if>
+            <if test="profit != null">
+                profit = #{profit,jdbcType=DECIMAL},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SklSdsr">
+        update sk_sdsr
+        set os_system = #{osSystem,jdbcType=VARCHAR},
+            `date`    = #{date,jdbcType=DATE},
+            cac       = #{cac,jdbcType=DECIMAL},
+            profit    = #{profit,jdbcType=DECIMAL}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="truncate">
+        truncate table sk_sdsr
+    </update>
+    <select id="selectAll" resultType="com.geek.shengka.backend.params.res.SkSdsrListReqParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_sdsr
+    </select>
+
+    <delete id="deleteAll" parameterType="java.lang.Long">
+        delete
+        from sk_sdsr
+    </delete>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into sk_sdsr (os_system, `date`, cac,
+        profit,create_by)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.osSystem,jdbcType=VARCHAR}, #{item.date,jdbcType=DATE}, #{item.cac,jdbcType=DECIMAL},
+            #{item.profit,jdbcType=DECIMAL},#{item.createBy,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+</mapper>

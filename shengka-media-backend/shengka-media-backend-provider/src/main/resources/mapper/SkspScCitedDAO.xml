@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.backend.mapper.SkspScCitedDAO">
+  <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkspScCited">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="os_system" jdbcType="VARCHAR" property="osSystem" />
+    <result column="date" jdbcType="TIMESTAMP" property="date" />
+    <result column="app" jdbcType="VARCHAR" property="app" />
+    <result column="market" jdbcType="VARCHAR" property="market" />
+    <result column="agent_account" jdbcType="VARCHAR" property="agentAccount" />
+    <result column="market_name" jdbcType="VARCHAR" property="marketName" />
+    <result column="book_cac" jdbcType="DECIMAL" property="bookCac" />
+    <result column="cash_cac" jdbcType="DECIMAL" property="cashCac" />
+    <result column="exposure_cnt" jdbcType="BIGINT" property="exposureCnt" />
+    <result column="click_cnt" jdbcType="BIGINT" property="clickCnt" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, os_system, `date`, app, market, agent_account, market_name, book_cac, cash_cac, 
+    exposure_cnt, click_cnt, create_time, update_time, create_by, update_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sksp_sc_cited
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sksp_sc_cited
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.backend.entity.SkspScCited" useGeneratedKeys="true">
+    insert into sksp_sc_cited (os_system, `date`, app,
+      market, agent_account, market_name, 
+      book_cac, cash_cac, exposure_cnt, 
+      click_cnt, create_time, update_time, 
+      create_by, update_by)
+    values (#{osSystem,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}, #{app,jdbcType=VARCHAR}, 
+      #{market,jdbcType=VARCHAR}, #{agentAccount,jdbcType=VARCHAR}, #{marketName,jdbcType=VARCHAR}, 
+      #{bookCac,jdbcType=DECIMAL}, #{cashCac,jdbcType=DECIMAL}, #{exposureCnt,jdbcType=BIGINT}, 
+      #{clickCnt,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.geek.shengka.backend.entity.SkspScCited" useGeneratedKeys="true">
+    insert into sksp_sc_cited
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="osSystem != null">
+        os_system,
+      </if>
+      <if test="date != null">
+        `date`,
+      </if>
+      <if test="app != null">
+        app,
+      </if>
+      <if test="market != null">
+        market,
+      </if>
+      <if test="agentAccount != null">
+        agent_account,
+      </if>
+      <if test="marketName != null">
+        market_name,
+      </if>
+      <if test="bookCac != null">
+        book_cac,
+      </if>
+      <if test="cashCac != null">
+        cash_cac,
+      </if>
+      <if test="exposureCnt != null">
+        exposure_cnt,
+      </if>
+      <if test="clickCnt != null">
+        click_cnt,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="updateBy != null">
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="osSystem != null">
+        #{osSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="app != null">
+        #{app,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null">
+        #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAccount != null">
+        #{agentAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="marketName != null">
+        #{marketName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCac != null">
+        #{bookCac,jdbcType=DECIMAL},
+      </if>
+      <if test="cashCac != null">
+        #{cashCac,jdbcType=DECIMAL},
+      </if>
+      <if test="exposureCnt != null">
+        #{exposureCnt,jdbcType=BIGINT},
+      </if>
+      <if test="clickCnt != null">
+        #{clickCnt,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch">
+    insert into sksp_sc_cited (os_system, `date`, app,
+    market, agent_account, market_name,
+    book_cac, cash_cac, exposure_cnt,
+    click_cnt,create_by)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.osSystem,jdbcType=VARCHAR}, #{item.date,jdbcType=DATE}, #{item.app,jdbcType=VARCHAR},
+      #{item.market,jdbcType=VARCHAR}, #{item.agentAccount,jdbcType=VARCHAR}, #{item.marketName,jdbcType=VARCHAR},
+      #{item.bookCac,jdbcType=DECIMAL}, #{item.cashCac,jdbcType=DECIMAL}, #{item.exposureCnt,jdbcType=BIGINT},
+      #{item.clickCnt,jdbcType=BIGINT},#{item.createBy,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkspScCited">
+    update sksp_sc_cited
+    <set>
+      <if test="osSystem != null">
+        os_system = #{osSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null">
+        `date` = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="app != null">
+        app = #{app,jdbcType=VARCHAR},
+      </if>
+      <if test="market != null">
+        market = #{market,jdbcType=VARCHAR},
+      </if>
+      <if test="agentAccount != null">
+        agent_account = #{agentAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="marketName != null">
+        market_name = #{marketName,jdbcType=VARCHAR},
+      </if>
+      <if test="bookCac != null">
+        book_cac = #{bookCac,jdbcType=DECIMAL},
+      </if>
+      <if test="cashCac != null">
+        cash_cac = #{cashCac,jdbcType=DECIMAL},
+      </if>
+      <if test="exposureCnt != null">
+        exposure_cnt = #{exposureCnt,jdbcType=BIGINT},
+      </if>
+      <if test="clickCnt != null">
+        click_cnt = #{clickCnt,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null">
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkspScCited">
+    update sksp_sc_cited
+    set os_system = #{osSystem,jdbcType=VARCHAR},
+      `date` = #{date,jdbcType=TIMESTAMP},
+      app = #{app,jdbcType=VARCHAR},
+      market = #{market,jdbcType=VARCHAR},
+      agent_account = #{agentAccount,jdbcType=VARCHAR},
+      market_name = #{marketName,jdbcType=VARCHAR},
+      book_cac = #{bookCac,jdbcType=DECIMAL},
+      cash_cac = #{cashCac,jdbcType=DECIMAL},
+      exposure_cnt = #{exposureCnt,jdbcType=BIGINT},
+      click_cnt = #{clickCnt,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="truncate">
+    TRUNCATE table sksp_sc_cited
+  </update>
+
+
+  <select id="getList" parameterType="com.geek.shengka.backend.entity.SkspScCited" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sksp_sc_cited
+        where 1=1
+        <if test="market != null and market != ''">
+            and market = #{market,jdbcType=VARCHAR}
+        </if>
+
+        <if test="startTime != null">
+            and date &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and date &lt;= #{endTime}
+        </if>
+    </select>
+</mapper>

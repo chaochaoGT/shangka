@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkVoiceDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkVoice">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="video_id" property="videoId" jdbcType="VARCHAR"/>
+        <result column="voice_url" property="voiceUrl" jdbcType="VARCHAR"/>
+        <result column="duration" property="duration" jdbcType="INTEGER"/>
+        <result column="geographic" property="geographic" jdbcType="VARCHAR"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="position" property="position" jdbcType="OTHER"/>
+        <result column="resource" property="resource" jdbcType="TINYINT"/>
+    </resultMap>
+    <resultMap id="SkVoiceListResParam" type="com.geek.shengka.backend.params.res.SkVoiceListResParam">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="video_id" property="videoId" jdbcType="VARCHAR"/>
+        <result column="voice_url" property="voiceUrl" jdbcType="VARCHAR"/>
+        <result column="duration" property="duration" jdbcType="INTEGER"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="resource" property="resource" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, video_id, voice_url, duration, geographic, enable, remark, create_time,
+    update_time, position, resource
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_voice
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="listByVideoIdOfPgc" resultMap="SkVoiceListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_voice
+        where video_id = #{videoId,jdbcType=VARCHAR}
+        and resource = 1
+        order by create_time ASC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from sk_voice
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByVideoIdOfPgc">
+        delete
+        from sk_voice
+        where video_id = #{videoId,jdbcType=VARCHAR}
+          and resource = 1
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkVoice">
+        insert into sk_voice (id, user_id, video_id,
+                              voice_url, duration, geographic,
+                              enable, remark, create_time,
+                              update_time, position, resource)
+        values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{videoId,jdbcType=VARCHAR},
+                #{voiceUrl,jdbcType=VARCHAR}, #{duration,jdbcType=INTEGER}, #{geographic,jdbcType=VARCHAR},
+                #{enable,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}, #{position,jdbcType=OTHER}, #{resource,jdbcType=TINYINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkVoice">
+        insert into sk_voice
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="videoId != null">
+                video_id,
+            </if>
+            <if test="voiceUrl != null">
+                voice_url,
+            </if>
+            <if test="duration != null">
+                duration,
+            </if>
+            <if test="geographic != null">
+                geographic,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="resource != null">
+                resource,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="videoId != null">
+                #{videoId,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceUrl != null">
+                #{voiceUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="geographic != null">
+                #{geographic,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=OTHER},
+            </if>
+            <if test="resource != null">
+                #{resource,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkVoice">
+        update sk_voice
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="videoId != null">
+                video_id = #{videoId,jdbcType=VARCHAR},
+            </if>
+            <if test="voiceUrl != null">
+                voice_url = #{voiceUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="duration != null">
+                duration = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="geographic != null">
+                geographic = #{geographic,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=OTHER},
+            </if>
+            <if test="resource != null">
+                resource = #{resource,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkVoice">
+        update sk_voice
+        set user_id     = #{userId,jdbcType=BIGINT},
+            video_id    = #{videoId,jdbcType=VARCHAR},
+            voice_url   = #{voiceUrl,jdbcType=VARCHAR},
+            duration    = #{duration,jdbcType=INTEGER},
+            geographic  = #{geographic,jdbcType=VARCHAR},
+            enable      = #{enable,jdbcType=TINYINT},
+            remark      = #{remark,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            position    = #{position,jdbcType=OTHER},
+            resource    = #{resource,jdbcType=TINYINT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkRecommendUserConfigDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkRecommendUserConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="show_num" property="showNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="user_icon" property="userIcon" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SkRecommendUserConfigListResParam"
+               type="com.geek.shengka.backend.params.res.SkRecommendUserConfigListResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, seq, show_num, create_time, update_time, user_icon, user_name
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_recommend_user_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkRecommendUserConfigListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_recommend_user_config
+        order by seq ASC
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from sk_recommend_user_config
+        where user_id = #{userId}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_recommend_user_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkRecommendUserConfig">
+        insert into sk_recommend_user_config (id, user_id, seq,
+                                              show_num, create_time, update_time,
+                                              user_icon, user_name)
+        values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{seq,jdbcType=INTEGER},
+                #{showNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+                #{userIcon,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkRecommendUserConfig">
+        insert into sk_recommend_user_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="showNum != null">
+                show_num,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="userIcon != null">
+                user_icon,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="showNum != null">
+                #{showNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userIcon != null">
+                #{userIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkRecommendUserConfig">
+        update sk_recommend_user_config
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="showNum != null">
+                show_num = #{showNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userIcon != null">
+                user_icon = #{userIcon,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkRecommendUserConfig">
+        update sk_recommend_user_config
+        set user_id     = #{userId,jdbcType=BIGINT},
+            seq         = #{seq,jdbcType=INTEGER},
+            show_num    = #{showNum,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            user_icon   = #{userIcon,jdbcType=VARCHAR},
+            user_name   = #{userName,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

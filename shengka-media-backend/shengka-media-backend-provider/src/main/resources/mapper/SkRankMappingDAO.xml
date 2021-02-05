@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkRankMappingDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkRankMapping">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="rank_id" property="rankId" jdbcType="BIGINT"/>
+        <result column="rank_type" property="rankType" jdbcType="TINYINT"/>
+        <result column="rel_id" property="relId" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SkRankMappingResParam" type="com.geek.shengka.backend.params.res.SkRankMappingResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, rank_id, rank_type, rel_id,seq, create_time, create_by, update_time, update_by
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_rank_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="list" resultMap="SkRankMappingResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_rank_mapping
+        where rank_id = #{rankId}
+        and rank_type = #{rankType}
+        order by id DESC
+    </select>
+
+    <select id="listIds" resultType="string">
+        select rel_id
+        from sk_rank_mapping
+        where rank_id = #{rankId}
+          and rank_type = #{rankType}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_rank_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByRankId">
+        delete
+        from sk_rank_mapping
+        where rank_id = #{rankId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkRankMapping">
+        insert into sk_rank_mapping (id, rank_id, rank_type,
+                                     rel_id,seq, create_time, create_by,
+                                     update_time, update_by)
+        values (#{id,jdbcType=BIGINT}, #{rankId,jdbcType=BIGINT}, #{rankType,jdbcType=TINYINT},
+                #{relId,jdbcType=VARCHAR},#{seq,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkRankMapping">
+        insert into sk_rank_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="rankId != null">
+                rank_id,
+            </if>
+            <if test="rankType != null">
+                rank_type,
+            </if>
+            <if test="relId != null">
+                rel_id,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="rankId != null">
+                #{rankId,jdbcType=BIGINT},
+            </if>
+            <if test="rankType != null">
+                #{rankType,jdbcType=TINYINT},
+            </if>
+            <if test="relId != null">
+                #{relId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertSelectiveList">
+        insert into sk_rank_mapping(rank_id,rank_type,rel_id,seq,create_by)
+        values
+        <foreach collection="list" item="srm" separator=",">
+            (#{srm.rankId,jdbcType=BIGINT},#{srm.rankType,jdbcType=TINYINT},
+            #{srm.relId,jdbcType=VARCHAR},#{srm.seq,jdbcType=BIGINT},#{srm.createBy,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkRankMapping">
+        update sk_rank_mapping
+        <set>
+            <if test="rankId != null">
+                rank_id = #{rankId,jdbcType=BIGINT},
+            </if>
+            <if test="rankType != null">
+                rank_type = #{rankType,jdbcType=TINYINT},
+            </if>
+            <if test="relId != null">
+                rel_id = #{relId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkRankMapping">
+        update sk_rank_mapping
+        set rank_id     = #{rankId,jdbcType=BIGINT},
+            rank_type   = #{rankType,jdbcType=TINYINT},
+            rel_id      = #{relId,jdbcType=VARCHAR},
+            seq      = #{seq,jdbcType=BIGINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

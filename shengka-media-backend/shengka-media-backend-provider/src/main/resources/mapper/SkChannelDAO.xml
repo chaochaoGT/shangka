@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.backend.mapper.SkChannelDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkChannel">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="channel_name" jdbcType="VARCHAR" property="channelName"/>
+        <result column="channel_code" jdbcType="VARCHAR" property="channelCode"/>
+        <result column="seq" jdbcType="INTEGER" property="seq"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+    </resultMap>
+    <resultMap id="SkChannelInfoResParam" type="com.geek.shengka.backend.params.res.SkChannelInfoResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <resultMap id="SkChannelListNoPageResParam" type="com.geek.shengka.backend.params.res.SkChannelListNoPageResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, channel_name, channel_code, seq, create_time, create_by, update_time, update_by
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_channel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkChannelInfoResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_channel
+        <where>
+            <if test="channelName!=null and channelName!=''">
+                and channel_name like concat('%',#{channelName},'%')
+            </if>
+            <if test="channelCode!=null and channelCode!=''">
+                and channel_code like concat('%',#{channelCode},'%')
+            </if>
+        </where>
+        order by seq ASC,create_time DESC
+    </select>
+    <select id="listNoPage" resultMap="SkChannelListNoPageResParam">
+        select id,
+               channel_name,
+               channel_code
+        from sk_channel
+        order by seq ASC, create_time DESC
+    </select>
+    <select id="info" resultMap="SkChannelInfoResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_channel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(1)
+        from sk_channel
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_channel
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkChannel">
+        insert into sk_channel (id, channel_name, channel_code, seq,
+                                create_time, create_by, update_time,
+                                update_by)
+        values (#{id,jdbcType=BIGINT}, #{channelName,jdbcType=VARCHAR}, #{channelCode,jdbcType=VARCHAR},
+                #{seq,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkChannel">
+        insert into sk_channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="channelName != null">
+                channel_name,
+            </if>
+            <if test="channelCode != null">
+                channel_code,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="channelName != null">
+                #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelCode != null">
+                #{channelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkChannel">
+        update sk_channel
+        <set>
+            <if test="channelName != null">
+                channel_name = #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="channelCode != null">
+                channel_code = #{channelCode,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkChannel">
+        update sk_channel
+        set channel_name = #{channelName,jdbcType=VARCHAR},
+            channel_code = #{channelCode,jdbcType=VARCHAR},
+            seq          = #{seq,jdbcType=INTEGER},
+            create_time  = #{createTime,jdbcType=TIMESTAMP},
+            create_by    = #{createBy,jdbcType=VARCHAR},
+            update_time  = #{updateTime,jdbcType=TIMESTAMP},
+            update_by    = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkSearchPageConfigDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkSearchPageConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="module_name" property="moduleName" jdbcType="VARCHAR"/>
+        <result column="module_code" property="moduleCode" jdbcType="VARCHAR"/>
+        <result column="module_type" property="moduleType" jdbcType="TINYINT"/>
+        <result column="module_desc" property="moduleDesc" jdbcType="VARCHAR"/>
+        <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR"/>
+        <result column="icon_url" property="iconUrl" jdbcType="VARCHAR"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SkSearchPageConfigListResParam"
+               extends="BaseResultMap"
+               type="com.geek.shengka.backend.params.res.SkSearchPageConfigListResParam">
+
+    </resultMap>
+    <resultMap id="SkSearchPageConfigInfoResParam"
+               extends="BaseResultMap"
+               type="com.geek.shengka.backend.params.res.SkSearchPageConfigInfoResParam">
+        <collection property="moduleMappings" ofType="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+            <result column="mapping_id" jdbcType="BIGINT" property="id"/>
+            <result column="mapping_config_id" jdbcType="BIGINT" property="configId"/>
+            <result column="mapping_module_type" jdbcType="BIGINT" property="moduleType"/>
+            <result column="mapping_source_id" jdbcType="VARCHAR" property="sourceId"/>
+            <result column="mapping_seq" jdbcType="VARCHAR" property="seq"/>
+        </collection>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, module_name, module_code, module_type, module_desc, banner_url, icon_url, enable,
+    seq, create_time, create_by, update_time, update_by
+    </sql>
+    <sql id="Info_Column_List">
+        sspc.id,sspc.module_name,sspc.module_code,sspc.module_type,sspc.module_desc,
+        sspc.banner_url,sspc.icon_url,sspc.enable,sspc.seq,sspc.create_time,
+        sspc.create_by,sspc.update_time,sspc.update_by,
+        ssmm.config_id   mapping_config_id,ssmm.module_type mapping_module_type,
+        ssmm.source_id   mapping_source_id,ssmm.seq         mapping_seq,
+        ssmm.id mapping_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_search_page_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkSearchPageConfigListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_search_page_config
+        where enable = 0
+        order by seq ASC
+    </select>
+    <select id="info" resultMap="SkSearchPageConfigInfoResParam">
+        select
+        <include refid="Info_Column_List"/>
+        from sk_search_page_config sspc left join sk_search_module_mapping ssmm
+        on sspc.id=ssmm.config_id
+        where sspc.id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_search_page_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert"
+            keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.geek.shengka.backend.entity.SkSearchPageConfig">
+        insert into sk_search_page_config (id, module_name, module_code,
+                                           module_type, module_desc, banner_url,
+                                           icon_url, enable, seq,
+                                           create_time, create_by, update_time,
+                                           update_by)
+        values (#{id,jdbcType=BIGINT}, #{moduleName,jdbcType=VARCHAR}, #{moduleCode,jdbcType=VARCHAR},
+                #{moduleType,jdbcType=TINYINT}, #{moduleDesc,jdbcType=VARCHAR}, #{bannerUrl,jdbcType=VARCHAR},
+                #{iconUrl,jdbcType=VARCHAR}, #{enable,jdbcType=TINYINT}, #{seq,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+                #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective"
+            keyProperty="id" useGeneratedKeys="true"
+            parameterType="com.geek.shengka.backend.entity.SkSearchPageConfig">
+        insert into sk_search_page_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="moduleName != null">
+                module_name,
+            </if>
+            <if test="moduleCode != null">
+                module_code,
+            </if>
+            <if test="moduleType != null">
+                module_type,
+            </if>
+            <if test="moduleDesc != null">
+                module_desc,
+            </if>
+            <if test="bannerUrl != null">
+                banner_url,
+            </if>
+            <if test="iconUrl != null">
+                icon_url,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="moduleName != null">
+                #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleType != null">
+                #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="moduleDesc != null">
+                #{moduleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerUrl != null">
+                #{bannerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="iconUrl != null">
+                #{iconUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkSearchPageConfig">
+        update sk_search_page_config
+        <set>
+            <if test="moduleName != null">
+                module_name = #{moduleName,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleCode != null">
+                module_code = #{moduleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleType != null">
+                module_type = #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="moduleDesc != null">
+                module_desc = #{moduleDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="bannerUrl != null">
+                banner_url = #{bannerUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="iconUrl != null">
+                icon_url = #{iconUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkSearchPageConfig">
+        update sk_search_page_config
+        set module_name = #{moduleName,jdbcType=VARCHAR},
+            module_code = #{moduleCode,jdbcType=VARCHAR},
+            module_type = #{moduleType,jdbcType=TINYINT},
+            module_desc = #{moduleDesc,jdbcType=VARCHAR},
+            banner_url  = #{bannerUrl,jdbcType=VARCHAR},
+            icon_url    = #{iconUrl,jdbcType=VARCHAR},
+            enable      = #{enable,jdbcType=TINYINT},
+            seq         = #{seq,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

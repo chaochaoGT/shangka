@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkSearchModuleMappingDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="config_id" property="configId" jdbcType="BIGINT"/>
+        <result column="module_type" property="moduleType" jdbcType="TINYINT"/>
+        <result column="source_id" property="sourceId" jdbcType="VARCHAR"/>
+        <result column="seq" property="seq" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, config_id, module_type, source_id, seq, create_time, create_by, update_time,
+    update_by
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_search_module_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="listIds" resultType="java.lang.String">
+        select source_id
+        from sk_search_module_mapping
+        where config_id = #{configId,jdbcType=BIGINT}
+          and module_type = #{moduleType,jdbcType=TINYINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_search_module_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByConfigId">
+        delete
+        from sk_search_module_mapping
+        where config_id = #{configId,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+        insert into sk_search_module_mapping (id, config_id, module_type,
+                                              source_id, seq, create_time,
+                                              create_by, update_time, update_by)
+        values (#{id,jdbcType=BIGINT}, #{configId,jdbcType=BIGINT}, #{moduleType,jdbcType=TINYINT},
+                #{sourceId,jdbcType=VARCHAR}, #{seq,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+                #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+        insert into sk_search_module_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="configId != null">
+                config_id,
+            </if>
+            <if test="moduleType != null">
+                module_type,
+            </if>
+            <if test="sourceId != null">
+                source_id,
+            </if>
+            <if test="seq != null">
+                seq,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="configId != null">
+                #{configId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleType != null">
+                #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="sourceId != null">
+                #{sourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertSelectiveList">
+        insert into sk_search_module_mapping(config_id,module_type,source_id,seq,create_by)
+        values
+        <foreach collection="list" separator="," item="mm">
+            (#{mm.configId,jdbcType=BIGINT},#{mm.moduleType,jdbcType=TINYINT},
+            #{mm.sourceId,jdbcType=VARCHAR},#{mm.seq,jdbcType=INTEGER},
+            #{mm.createBy,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+        update sk_search_module_mapping
+        <set>
+            <if test="configId != null">
+                config_id = #{configId,jdbcType=BIGINT},
+            </if>
+            <if test="moduleType != null">
+                module_type = #{moduleType,jdbcType=TINYINT},
+            </if>
+            <if test="sourceId != null">
+                source_id = #{sourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="seq != null">
+                seq = #{seq,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkSearchModuleMapping">
+        update sk_search_module_mapping
+        set config_id   = #{configId,jdbcType=BIGINT},
+            module_type = #{moduleType,jdbcType=TINYINT},
+            source_id   = #{sourceId,jdbcType=VARCHAR},
+            seq         = #{seq,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            create_by   = #{createBy,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP},
+            update_by   = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

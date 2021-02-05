@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkNativeMessageDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkNativeMessage">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="message_title" property="messageTitle" jdbcType="VARCHAR"/>
+        <result column="message_content" property="messageContent" jdbcType="VARCHAR"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, message_title, message_content, enable, create_time, create_by, update_time,
+    update_by
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_native_message
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_native_message
+        <where>
+            <if test="messageTitle!=null and messageTitle!=''">
+                and message_title like concat('%',#{messageTitle,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_native_message
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkNativeMessage">
+        insert into sk_native_message (id, message_title, message_content,
+                                       enable, create_time, create_by,
+                                       update_time, update_by)
+        values (#{id,jdbcType=BIGINT}, #{messageTitle,jdbcType=VARCHAR}, #{messageContent,jdbcType=VARCHAR},
+                #{enable,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkNativeMessage">
+        insert into sk_native_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="messageTitle != null">
+                message_title,
+            </if>
+            <if test="messageContent != null">
+                message_content,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="messageTitle != null">
+                #{messageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="messageContent != null">
+                #{messageContent,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkNativeMessage">
+        update sk_native_message
+        <set>
+            <if test="messageTitle != null">
+                message_title = #{messageTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="messageContent != null">
+                message_content = #{messageContent,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkNativeMessage">
+        update sk_native_message
+        set message_title   = #{messageTitle,jdbcType=VARCHAR},
+            message_content = #{messageContent,jdbcType=VARCHAR},
+            enable          = #{enable,jdbcType=TINYINT},
+            create_time     = #{createTime,jdbcType=TIMESTAMP},
+            create_by       = #{createBy,jdbcType=VARCHAR},
+            update_time     = #{updateTime,jdbcType=TIMESTAMP},
+            update_by       = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

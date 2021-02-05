@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkPublishVideoDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkPublishVideo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="publish_user_id" property="publishUserId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="video_url" property="videoUrl" jdbcType="VARCHAR"/>
+        <result column="cover_image_url" property="coverImageUrl" jdbcType="VARCHAR"/>
+        <result column="conceal" property="conceal" jdbcType="TINYINT"/>
+        <result column="notice_user_ids" property="noticeUserIds" jdbcType="VARCHAR"/>
+        <result column="notice_user_json" property="noticeUserJson" jdbcType="VARCHAR"/>
+        <result column="topic_ids" property="topicIds" jdbcType="VARCHAR"/>
+        <result column="topic_json" property="topicJson" jdbcType="VARCHAR"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="watch_mode" property="watchMode" jdbcType="TINYINT"/>
+        <result column="con_category_id" property="conCategoryId" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="SkPublishVideoListResParam" type="com.geek.shengka.backend.params.res.SkPublishVideoListResParam"
+               extends="BaseResultMap">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, publish_user_id, title, video_url, cover_image_url, conceal, notice_user_ids,
+    notice_user_json, topic_ids, topic_json, enable, remark, create_time, update_time, 
+    watch_mode, con_category_id
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_publish_video
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <select id="list" resultMap="SkPublishVideoListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_publish_video
+        <where>
+            <if test="resource!=null">
+                resource = #{resource}
+            </if>
+            <if test="title!=null and title!=''">
+                and MATCH(`title`) AGAINST(#{title})
+            </if>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+        </where>
+    </select>
+    <select id="selectPgcVideoIds" resultType="java.lang.String">
+        select id
+        from sk_publish_video
+        where id in (
+        <foreach collection="ids" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+        and resource=1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from sk_publish_video
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkPublishVideo">
+        insert into sk_publish_video (id, publish_user_id, title,
+                                      video_url, cover_image_url, conceal,
+                                      notice_user_ids, notice_user_json, topic_ids,
+                                      topic_json, enable, remark,
+                                      create_time, update_time, watch_mode,
+                                      con_category_id)
+        values (#{id,jdbcType=VARCHAR}, #{publishUserId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR},
+                #{videoUrl,jdbcType=VARCHAR}, #{coverImageUrl,jdbcType=VARCHAR}, #{conceal,jdbcType=TINYINT},
+                #{noticeUserIds,jdbcType=VARCHAR}, #{noticeUserJson,jdbcType=VARCHAR}, #{topicIds,jdbcType=VARCHAR},
+                #{topicJson,jdbcType=VARCHAR}, #{enable,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{watchMode,jdbcType=TINYINT},
+                #{conCategoryId,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkPublishVideo">
+        insert into sk_publish_video
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="publishUserId != null">
+                publish_user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="videoUrl != null">
+                video_url,
+            </if>
+            <if test="coverImageUrl != null">
+                cover_image_url,
+            </if>
+            <if test="conceal != null">
+                conceal,
+            </if>
+            <if test="noticeUserIds != null">
+                notice_user_ids,
+            </if>
+            <if test="noticeUserJson != null">
+                notice_user_json,
+            </if>
+            <if test="topicIds != null">
+                topic_ids,
+            </if>
+            <if test="topicJson != null">
+                topic_json,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="watchMode != null">
+                watch_mode,
+            </if>
+            <if test="conCategoryId != null">
+                con_category_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="publishUserId != null">
+                #{publishUserId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null">
+                #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="coverImageUrl != null">
+                #{coverImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="conceal != null">
+                #{conceal,jdbcType=TINYINT},
+            </if>
+            <if test="noticeUserIds != null">
+                #{noticeUserIds,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeUserJson != null">
+                #{noticeUserJson,jdbcType=VARCHAR},
+            </if>
+            <if test="topicIds != null">
+                #{topicIds,jdbcType=VARCHAR},
+            </if>
+            <if test="topicJson != null">
+                #{topicJson,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="watchMode != null">
+                #{watchMode,jdbcType=TINYINT},
+            </if>
+            <if test="conCategoryId != null">
+                #{conCategoryId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkPublishVideo">
+        update sk_publish_video
+        <set>
+            <if test="publishUserId != null">
+                publish_user_id = #{publishUserId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="videoUrl != null">
+                video_url = #{videoUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="coverImageUrl != null">
+                cover_image_url = #{coverImageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="conceal != null">
+                conceal = #{conceal,jdbcType=TINYINT},
+            </if>
+            <if test="noticeUserIds != null">
+                notice_user_ids = #{noticeUserIds,jdbcType=VARCHAR},
+            </if>
+            <if test="noticeUserJson != null">
+                notice_user_json = #{noticeUserJson,jdbcType=VARCHAR},
+            </if>
+            <if test="topicIds != null">
+                topic_ids = #{topicIds,jdbcType=VARCHAR},
+            </if>
+            <if test="topicJson != null">
+                topic_json = #{topicJson,jdbcType=VARCHAR},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="watchMode != null">
+                watch_mode = #{watchMode,jdbcType=TINYINT},
+            </if>
+            <if test="conCategoryId != null">
+                con_category_id = #{conCategoryId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkPublishVideo">
+        update sk_publish_video
+        set publish_user_id  = #{publishUserId,jdbcType=BIGINT},
+            title            = #{title,jdbcType=VARCHAR},
+            video_url        = #{videoUrl,jdbcType=VARCHAR},
+            cover_image_url  = #{coverImageUrl,jdbcType=VARCHAR},
+            conceal          = #{conceal,jdbcType=TINYINT},
+            notice_user_ids  = #{noticeUserIds,jdbcType=VARCHAR},
+            notice_user_json = #{noticeUserJson,jdbcType=VARCHAR},
+            topic_ids        = #{topicIds,jdbcType=VARCHAR},
+            topic_json       = #{topicJson,jdbcType=VARCHAR},
+            enable           = #{enable,jdbcType=TINYINT},
+            remark           = #{remark,jdbcType=VARCHAR},
+            create_time      = #{createTime,jdbcType=TIMESTAMP},
+            update_time      = #{updateTime,jdbcType=TIMESTAMP},
+            watch_mode       = #{watchMode,jdbcType=TINYINT},
+            con_category_id  = #{conCategoryId,jdbcType=BIGINT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+</mapper>

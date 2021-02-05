@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geek.shengka.backend.mapper.SkWithdrawConfigDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkWithdrawConfig">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="withdraw_amount" property="withdrawAmount" jdbcType="DECIMAL"/>
+        <result column="withdraw_type" property="withdrawType" jdbcType="TINYINT"/>
+        <result column="enable" property="enable" jdbcType="TINYINT"/>
+        <result column="withdraw_intro" property="withdrawIntro" jdbcType="VARCHAR"/>
+        <result column="unlock_event" property="unlockEvent" jdbcType="TINYINT"/>
+        <result column="unlock_login_day" property="unlockLoginDay" jdbcType="INTEGER"/>
+        <result column="unlock_watch_time" property="unlockWatchTime" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="SkWithdrawConfigListResParam"
+               extends="BaseResultMap"
+               type="com.geek.shengka.backend.params.res.SkWithdrawConfigListResParam">
+
+    </resultMap>
+    <resultMap id="SkWithdrawConfigInfoResParam"
+               extends="BaseResultMap"
+               type="com.geek.shengka.backend.params.res.SkWithdrawConfigInfoResParam">
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, withdraw_amount, withdraw_type, enable, withdraw_intro, unlock_event, unlock_login_day,
+    unlock_watch_time, create_time, create_by, update_time, update_by
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_withdraw_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="list" resultMap="SkWithdrawConfigListResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_withdraw_config
+        <where>
+            <if test="withdrawType!=null and withdrawType!=''">
+                and withdraw_type = #{withdrawType}
+            </if>
+            <if test="enable!=null">
+                and enable = #{enable}
+            </if>
+        </where>
+        order by id DESC
+    </select>
+    <select id="info" resultMap="SkWithdrawConfigInfoResParam">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_withdraw_config
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_withdraw_config
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkWithdrawConfig">
+        insert into sk_withdraw_config (id, withdraw_amount, withdraw_type,
+                                        enable, withdraw_intro, unlock_event,
+                                        unlock_login_day, unlock_watch_time, create_time,
+                                        create_by, update_time, update_by)
+        values (#{id,jdbcType=BIGINT}, #{withdrawAmount,jdbcType=DECIMAL}, #{withdrawType,jdbcType=TINYINT},
+                #{enable,jdbcType=TINYINT}, #{withdrawIntro,jdbcType=VARCHAR}, #{unlockEvent,jdbcType=TINYINT},
+                #{unlockLoginDay,jdbcType=INTEGER}, #{unlockWatchTime,jdbcType=INTEGER},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkWithdrawConfig">
+        insert into sk_withdraw_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount,
+            </if>
+            <if test="withdrawType != null">
+                withdraw_type,
+            </if>
+            <if test="enable != null">
+                enable,
+            </if>
+            <if test="withdrawIntro != null">
+                withdraw_intro,
+            </if>
+            <if test="unlockEvent != null">
+                unlock_event,
+            </if>
+            <if test="unlockLoginDay != null">
+                unlock_login_day,
+            </if>
+            <if test="unlockWatchTime != null">
+                unlock_watch_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="withdrawAmount != null">
+                #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawType != null">
+                #{withdrawType,jdbcType=TINYINT},
+            </if>
+            <if test="enable != null">
+                #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="withdrawIntro != null">
+                #{withdrawIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="unlockEvent != null">
+                #{unlockEvent,jdbcType=TINYINT},
+            </if>
+            <if test="unlockLoginDay != null">
+                #{unlockLoginDay,jdbcType=INTEGER},
+            </if>
+            <if test="unlockWatchTime != null">
+                #{unlockWatchTime,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkWithdrawConfig">
+        update sk_withdraw_config
+        <set>
+            <if test="withdrawAmount != null">
+                withdraw_amount = #{withdrawAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="withdrawType != null">
+                withdraw_type = #{withdrawType,jdbcType=TINYINT},
+            </if>
+            <if test="enable != null">
+                enable = #{enable,jdbcType=TINYINT},
+            </if>
+            <if test="withdrawIntro != null">
+                withdraw_intro = #{withdrawIntro,jdbcType=VARCHAR},
+            </if>
+            <if test="unlockEvent != null">
+                unlock_event = #{unlockEvent,jdbcType=TINYINT},
+            </if>
+            <if test="unlockLoginDay != null">
+                unlock_login_day = #{unlockLoginDay,jdbcType=INTEGER},
+            </if>
+            <if test="unlockWatchTime != null">
+                unlock_watch_time = #{unlockWatchTime,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkWithdrawConfig">
+        update sk_withdraw_config
+        set withdraw_amount   = #{withdrawAmount,jdbcType=DECIMAL},
+            withdraw_type     = #{withdrawType,jdbcType=TINYINT},
+            enable            = #{enable,jdbcType=TINYINT},
+            withdraw_intro    = #{withdrawIntro,jdbcType=VARCHAR},
+            unlock_event      = #{unlockEvent,jdbcType=TINYINT},
+            unlock_login_day  = #{unlockLoginDay,jdbcType=INTEGER},
+            unlock_watch_time = #{unlockWatchTime,jdbcType=INTEGER},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            create_by         = #{createBy,jdbcType=VARCHAR},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP},
+            update_by         = #{updateBy,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

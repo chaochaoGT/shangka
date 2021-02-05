@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geek.shengka.backend.mapper.SkCategoryMappingDAO">
+    <resultMap id="BaseResultMap" type="com.geek.shengka.backend.entity.SkCategoryMapping">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="content_category_id" jdbcType="BIGINT" property="contentCategoryId"/>
+        <result column="content_category_name" jdbcType="VARCHAR" property="contentCategoryName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, category_id, content_category_id, content_category_name, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_category_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="listByCategoryId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sk_category_mapping
+        where category_id = #{categoryId}
+        order by id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete
+        from sk_category_mapping
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <delete id="deleteByCategoryId">
+        delete
+        from sk_category_mapping
+        where category_id = #{categoryId}
+    </delete>
+    <insert id="insert" parameterType="com.geek.shengka.backend.entity.SkCategoryMapping">
+        insert into sk_category_mapping (id, category_id, content_category_id, content_category_name,
+                                         create_time)
+        values (#{id,jdbcType=BIGINT}, #{categoryId,jdbcType=BIGINT}, #{contentCategoryId,jdbcType=BIGINT},
+                #{contentCategoryName,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.geek.shengka.backend.entity.SkCategoryMapping">
+        insert into sk_category_mapping
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="contentCategoryId != null">
+                content_category_id,
+            </if>
+            <if test="contentCategoryName != null">
+                content_category_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="contentCategoryId != null">
+                #{contentCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="contentCategoryName != null">
+                #{contentCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <insert id="insertSelectiveList">
+        insert into sk_category_mapping(category_id,content_category_id,content_category_name)
+        values
+        <foreach collection="list" separator="," item="cm">
+            (#{cm.categoryId,jdbcType=BIGINT},#{cm.contentCategoryId,jdbcType=BIGINT},
+            #{cm.contentCategoryName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.geek.shengka.backend.entity.SkCategoryMapping">
+        update sk_category_mapping
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="contentCategoryId != null">
+                content_category_id = #{contentCategoryId,jdbcType=BIGINT},
+            </if>
+            <if test="contentCategoryName != null">
+                content_category_name = #{contentCategoryName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.geek.shengka.backend.entity.SkCategoryMapping">
+        update sk_category_mapping
+        set category_id           = #{categoryId,jdbcType=BIGINT},
+            content_category_id   = #{contentCategoryId,jdbcType=BIGINT},
+            content_category_name = #{contentCategoryName,jdbcType=VARCHAR},
+            create_time           = #{createTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
